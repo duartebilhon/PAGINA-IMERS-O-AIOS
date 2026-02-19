@@ -780,11 +780,328 @@
             .timeline-grid { grid-template-columns: 1fr; }
             .entregaveis-grid { grid-template-columns: 1fr; }
             .pos-grid { grid-template-columns: 1fr; }
+            .dias-grid { grid-template-columns: 1fr; }
+            .mentores-op-grid { grid-template-columns: 1fr; }
+            .dashboard-grid { grid-template-columns: 1fr 1fr; }
+            .equipe-grid { grid-template-columns: 1fr 1fr; }
         }
+
+        /* ══ ABAS DE NAVEGAÇÃO ══ */
+        .tab-nav {
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            background: var(--brown-dark);
+            display: flex;
+            align-items: center;
+            gap: 0;
+            border-bottom: 1px solid rgba(201,165,90,0.2);
+            padding: 0 40px;
+        }
+        .tab-btn {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82em;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            padding: 18px 28px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover { color: rgba(255,255,255,0.8); }
+        .tab-btn.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+        .tab-label {
+            font-size: 0.72em;
+            color: rgba(255,255,255,0.25);
+            padding: 0 16px;
+            letter-spacing: 1px;
+        }
+
+        /* ══ PÁGINAS ══ */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        @media print {
+            .tab-nav { display: none !important; }
+            .page { display: block !important; }
+            .page + .page { page-break-before: always; break-before: page; }
+        }
+
+        /* ══ PÁGINA 2 — BRIEFING OPERACIONAL ══ */
+
+        .p2-header {
+            background: linear-gradient(160deg, #1a0c06 0%, var(--brown-dark) 100%);
+            padding: 56px 40px 44px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .p2-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(201,165,90,0.1) 0%, transparent 70%);
+        }
+        .p2-eyebrow {
+            font-size: 0.7em;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 14px;
+            position: relative;
+        }
+        .p2-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8em, 3.5vw, 2.8em);
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .p2-header h2 span { color: var(--gold); }
+        .p2-header-sub {
+            font-size: 0.88em;
+            color: rgba(255,255,255,0.45);
+            position: relative;
+        }
+
+        /* Nav interna p2 */
+        .p2-nav {
+            background: var(--brown-mid);
+            padding: 14px 40px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .p2-nav a {
+            background: rgba(201,165,90,0.1);
+            border: 1px solid rgba(201,165,90,0.2);
+            color: rgba(255,255,255,0.65);
+            font-size: 0.72em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .p2-nav a:hover { background: var(--gold); color: var(--brown-dark); }
+
+        /* Layout p2 */
+        .p2-section { padding: 64px 40px; max-width: 1100px; margin: 0 auto; }
+        .p2-section-full { padding: 64px 40px; }
+        .p2-section-alt { background: var(--cream-dark); }
+        .p2-section-dark { background: var(--brown-dark); }
+
+        /* Dias */
+        .dias-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 8px;
+        }
+        .dia-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(74,46,24,0.08); }
+        .dia-header-op {
+            background: var(--brown-dark);
+            padding: 26px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .dia-header-op.d2 { background: linear-gradient(135deg, #1a0c06, #2a1a0e); }
+        .dia-header-op::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 80% 50%, rgba(201,165,90,0.1) 0%, transparent 70%);
+        }
+        .dia-num-op { font-size: 0.65em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+        .dia-titulo-op { font-family: 'Playfair Display', serif; font-size: 1.25em; color: #fff; line-height: 1.3; position: relative; }
+        .dia-body-op { padding: 26px 30px; }
+        .dia-item-op { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--cream-dark); }
+        .dia-item-op:last-child { border-bottom: none; }
+        .dia-dot-op { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 9px; }
+        .dia-text-op { font-size: 0.87em; color: var(--text-mid); line-height: 1.6; }
+
+        /* Taxonomia */
+        .nivel-block { margin-bottom: 24px; }
+        .nivel-header-op { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .nivel-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .nivel-badge.estrategico { background: rgba(201,165,90,0.15); color: var(--gold); border: 1px solid rgba(201,165,90,0.3); }
+        .nivel-badge.tatico { background: rgba(74,144,217,0.12); color: #4a90d9; border: 1px solid rgba(74,144,217,0.25); }
+        .nivel-badge.operacional { background: rgba(82,183,136,0.12); color: #52b788; border: 1px solid rgba(82,183,136,0.25); }
+        .nivel-desc-op { font-size: 0.76em; color: var(--text-light); font-style: italic; }
+        .squads-row { display: flex; flex-wrap: wrap; gap: 10px; }
+        .squad-pill {
+            background: #fff;
+            border-radius: 10px;
+            padding: 14px 18px;
+            border: 1px solid var(--cream-dark);
+            flex: 1;
+            min-width: 180px;
+            box-shadow: 0 2px 6px rgba(74,46,24,0.04);
+        }
+        .squad-pill.estrategico { border-left: 3px solid var(--gold); }
+        .squad-pill.tatico { border-left: 3px solid #4a90d9; }
+        .squad-pill.operacional { border-left: 3px solid #52b788; }
+        .squad-pill-name { font-size: 0.85em; font-weight: 700; color: var(--brown-dark); margin-bottom: 3px; }
+        .squad-pill-desc { font-size: 0.76em; color: var(--text-light); line-height: 1.5; }
+
+        /* Mentores op */
+        .mentores-op-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 8px; }
+        .mentor-op-card { border: 1px solid rgba(201,165,90,0.2); border-radius: 14px; padding: 26px 22px; }
+        .mentor-op-badge {
+            display: inline-block;
+            background: rgba(201,165,90,0.12);
+            color: var(--gold);
+            font-size: 0.65em;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(201,165,90,0.2);
+        }
+        .mentor-op-card .m-icon { font-size: 1.5em; margin-bottom: 10px; display: block; }
+        .mentor-op-card h4 { font-family: 'Playfair Display', serif; font-size: 1.05em; color: #fff; margin-bottom: 7px; }
+        .mentor-op-card p { font-size: 0.8em; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+        /* Checklist */
+        .checklist-op { list-style: none; margin-top: 8px; }
+        .checklist-op li {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            background: #fff;
+            border-radius: 13px;
+            padding: 18px 22px;
+            margin-bottom: 10px;
+            border: 1px solid var(--cream-dark);
+            box-shadow: 0 2px 6px rgba(74,46,24,0.04);
+        }
+        .check-num-op {
+            width: 30px; height: 30px; border-radius: 50%;
+            background: var(--brown-dark); color: var(--gold);
+            font-size: 0.82em; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .check-title-op { font-size: 0.92em; font-weight: 700; color: var(--brown-dark); margin-bottom: 3px; }
+        .check-desc-op { font-size: 0.8em; color: var(--text-light); line-height: 1.6; }
+
+        /* Flow */
+        .flow { display: flex; flex-direction: column; margin-top: 8px; }
+        .flow-step { display: flex; gap: 18px; position: relative; }
+        .flow-left { display: flex; flex-direction: column; align-items: center; }
+        .flow-circle {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--brown-dark);
+            font-size: 0.85em; font-weight: 800;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .flow-line { width: 2px; flex: 1; min-height: 24px; background: linear-gradient(to bottom, rgba(201,165,90,0.4), rgba(201,165,90,0.05)); }
+        .flow-content { padding-bottom: 24px; flex: 1; }
+        .flow-content h4 { font-size: 0.92em; font-weight: 700; color: var(--brown-dark); margin-bottom: 3px; margin-top: 7px; }
+        .flow-content p { font-size: 0.8em; color: var(--text-light); line-height: 1.65; }
+        .flow-step:last-child .flow-line { display: none; }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 8px;
+        }
+        .dash-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(201,165,90,0.15);
+            border-radius: 13px;
+            padding: 22px 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        .dash-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .dash-card .d-icon { font-size: 1.5em; margin-bottom: 10px; display: block; }
+        .dash-card h4 { font-size: 0.87em; font-weight: 700; color: #fff; margin-bottom: 5px; }
+        .dash-card p { font-size: 0.76em; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+        /* Equipe */
+        .equipe-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-top: 8px;
+        }
+        .equipe-card {
+            background: #fff;
+            border-radius: 13px;
+            padding: 22px 18px;
+            text-align: center;
+            border: 1px solid var(--cream-dark);
+            box-shadow: 0 2px 8px rgba(74,46,24,0.05);
+        }
+        .equipe-avatar {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--brown-dark), var(--brown-mid));
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15em; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 12px auto;
+        }
+        .equipe-card h4 { font-size: 0.87em; font-weight: 700; color: var(--brown-dark); margin-bottom: 5px; }
+        .equipe-card p { font-size: 0.76em; color: var(--text-light); line-height: 1.6; }
+
+        /* Quick win */
+        .quick-win {
+            background: linear-gradient(135deg, var(--brown-dark), #1a0c06);
+            border: 1px solid rgba(201,165,90,0.3);
+            border-radius: 18px;
+            padding: 32px 36px;
+            margin-top: 36px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        .quick-win-icon { font-size: 2.5em; flex-shrink: 0; }
+        .quick-win h3 { font-family: 'Playfair Display', serif; font-size: 1.3em; color: var(--gold); margin-bottom: 6px; }
+        .quick-win p { font-size: 0.84em; color: rgba(255,255,255,0.55); line-height: 1.7; }
     </style>
 </head>
 <body>
 
+<!-- ══ NAVEGAÇÃO POR ABAS ══ -->
+<nav class="tab-nav no-print">
+    <span class="tab-label">Imersão AIOS</span>
+    <button class="tab-btn active" id="btn1" onclick="showPage(1)">Página do Cliente</button>
+    <button class="tab-btn" id="btn2" onclick="showPage(2)">Briefing Operacional</button>
+</nav>
+
+<!-- ══ PÁGINA 1 ══ -->
+<div id="page1" class="page active">
 <button class="print-btn no-print" onclick="window.print()">Salvar como PDF</button>
 
 <!-- ── HERO ── -->
@@ -1156,6 +1473,296 @@
         </div>
     </div>
 </div>
+
+
+</div><!-- fim page1 -->
+
+<!-- ══ PÁGINA 2 ══ -->
+<div id="page2" class="page">
+<button class="print-btn no-print" onclick="window.print()">Salvar como PDF</button>
+
+<!-- HEADER P2 -->
+<div class="p2-header">
+    <p class="p2-eyebrow">Imersão AIOS &mdash; Documento Interno</p>
+    <h2>Briefing <span>Operacional</span></h2>
+    <p class="p2-header-sub">Estrutura do evento · Entregáveis · Mentores · Equipe · Onboarding</p>
+</div>
+
+<!-- 1. ESTRUTURA -->
+<div id="p2-estrutura">
+    <div class="p2-section">
+        <p class="section-label">Estrutura do evento</p>
+        <h2 class="section-title">2 dias de aplicação intensiva.</h2>
+        <div class="divider"></div>
+        <div class="dias-grid">
+            <div class="dia-card">
+                <div class="dia-header-op">
+                    <p class="dia-num-op">Dia 01</p>
+                    <h3 class="dia-titulo-op">Base, Setup<br>e Workspace</h3>
+                </div>
+                <div class="dia-body-op">
+                    <div class="dia-item-op"><div class="dia-dot-op"></div><div class="dia-text-op">Visão geral do sistema AIOS + arquitetura completa</div></div>
+                    <div class="dia-item-op"><div class="dia-dot-op"></div><div class="dia-text-op">Instalação e configuração técnica do ambiente</div></div>
+                    <div class="dia-item-op"><div class="dia-dot-op"></div><div class="dia-text-op">Criação do Workspace pessoal com DNA da empresa</div></div>
+                    <div class="dia-item-op"><div class="dia-dot-op"></div><div class="dia-text-op">Sistema estratégico ativado (C-Levels, Conclave, Design System)</div></div>
+                </div>
+            </div>
+            <div class="dia-card">
+                <div class="dia-header-op d2">
+                    <p class="dia-num-op">Dia 02</p>
+                    <h3 class="dia-titulo-op">Squads, Elicitation<br>e Hands-on</h3>
+                </div>
+                <div class="dia-body-op">
+                    <div class="dia-item-op"><div class="dia-dot-op"></div><div class="dia-text-op">Implementação das Squads Operacionais (Tráfego, Copy, Content, UI/UX)</div></div>
+                    <div class="dia-item-op"><div class="dia-dot-op"></div><div class="dia-text-op">Elicitation individual — identificação da área de maior impacto</div></div>
+                    <div class="dia-item-op"><div class="dia-dot-op"></div><div class="dia-text-op">Criação da 5ª Squad personalizada com Squad Creator</div></div>
+                    <div class="dia-item-op"><div class="dia-dot-op"></div><div class="dia-text-op">Hands-on com mentores dedicados por time</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. ENTREGÁVEIS -->
+<div id="p2-entregaveis" class="p2-section-alt">
+    <div class="p2-section" style="padding-top: 0;">
+        <p class="section-label">Entregáveis + Taxonomia</p>
+        <h2 class="section-title">O que cada participante recebe —<br>e em qual nível opera.</h2>
+        <div class="divider"></div>
+
+        <div class="nivel-block">
+            <div class="nivel-header-op">
+                <span class="nivel-badge estrategico">⭐ Estratégico</span>
+                <span class="nivel-desc-op">Decisão, visão executiva e governança do sistema</span>
+            </div>
+            <div class="squads-row">
+                <div class="squad-pill estrategico">
+                    <div class="squad-pill-name">C-Levels</div>
+                    <div class="squad-pill-desc">CEO, CFO, CMO, COO, CRO — visão executiva para cada decisão do negócio</div>
+                </div>
+                <div class="squad-pill estrategico">
+                    <div class="squad-pill-name">Conclave</div>
+                    <div class="squad-pill-desc">Conselho de advisors com debates estruturados — perspectivas múltiplas em estratégia</div>
+                </div>
+                <div class="squad-pill estrategico">
+                    <div class="squad-pill-name">Squad Creator</div>
+                    <div class="squad-pill-desc">Ferramenta para criar e configurar novos squads personalizados do zero</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nivel-block">
+            <div class="nivel-header-op">
+                <span class="nivel-badge tatico">🔷 Tático</span>
+                <span class="nivel-desc-op">Processos, infraestrutura e sistema de marca</span>
+            </div>
+            <div class="squads-row">
+                <div class="squad-pill tatico">
+                    <div class="squad-pill-name">BRE / DevOps</div>
+                    <div class="squad-pill-desc">Mapeamento de processos, infraestrutura e manutenção do sistema</div>
+                </div>
+                <div class="squad-pill tatico">
+                    <div class="squad-pill-name">Design System</div>
+                    <div class="squad-pill-desc">Padrão visual completo da marca aplicado em todas as saídas</div>
+                </div>
+                <div class="squad-pill tatico">
+                    <div class="squad-pill-name">Funil de Vendas</div>
+                    <div class="squad-pill-desc">Estrutura tática de aquisição e conversão integrada ao sistema</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nivel-block">
+            <div class="nivel-header-op">
+                <span class="nivel-badge operacional">🟢 Operacional</span>
+                <span class="nivel-desc-op">Exclusivo da imersão — execução diária de alto volume</span>
+            </div>
+            <div class="squads-row">
+                <div class="squad-pill operacional">
+                    <div class="squad-pill-name">Tráfego</div>
+                    <div class="squad-pill-desc">Gestão de campanhas, pixel, métricas e otimização de mídia paga</div>
+                </div>
+                <div class="squad-pill operacional">
+                    <div class="squad-pill-name">Content Factory</div>
+                    <div class="squad-pill-desc">Geração de conteúdo multicanal com a voz e posicionamento da marca</div>
+                </div>
+                <div class="squad-pill operacional">
+                    <div class="squad-pill-name">Copy</div>
+                    <div class="squad-pill-desc">Copywriting — anúncios, VSLs, emails, páginas de vendas</div>
+                </div>
+                <div class="squad-pill operacional">
+                    <div class="squad-pill-name">UI/UX</div>
+                    <div class="squad-pill-desc">Design de interfaces integrado ao Design System da marca</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: var(--gold-pale); border-radius: 12px; padding: 18px 24px; margin-top: 10px; border-left: 4px solid var(--gold);">
+            <p style="font-size: 0.83em; color: var(--text-mid); line-height: 1.7;">
+                <strong style="color: var(--brown-dark);">Nota:</strong> Estratégico e Tático estão disponíveis para todos os assinantes do <strong>AIOS Pro</strong>. As Squads Operacionais são <strong>exclusivas dos participantes da imersão</strong>.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- 3. MENTORES -->
+<div id="p2-mentores" class="p2-section-full p2-section-dark">
+    <div class="p2-section" style="padding-top: 0;">
+        <p class="section-label" style="color: var(--gold-light);">Equipe de mentores</p>
+        <h2 class="section-title" style="color: #fff;">20 mentores no evento.<br>Cada time com mentor dedicado.</h2>
+        <div class="divider"></div>
+        <div class="mentores-op-grid">
+            <div class="mentor-op-card">
+                <span class="mentor-op-badge">Pré-evento</span>
+                <span class="m-icon">🔧</span>
+                <h4>Setup Técnico Individual</h4>
+                <p>Cada participante tem call 1:1 com seu mentor para instalar Claude Code e preparar o ambiente antes do evento.</p>
+            </div>
+            <div class="mentor-op-card">
+                <span class="mentor-op-badge">Durante o evento</span>
+                <span class="m-icon">👥</span>
+                <h4>Mentores por Time</h4>
+                <p>20 mentores do grupo avançado acompanham os participantes nos 2 dias, com dedicação individual por time.</p>
+            </div>
+            <div class="mentor-op-card">
+                <span class="mentor-op-badge">6 semanas pós</span>
+                <span class="m-icon">🎯</span>
+                <h4>Acompanhamento Individual</h4>
+                <p>Mentor individual por 6 semanas após o evento. Reuniões para otimizar squads e resolver gargalos reais.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4. PRÉ-EVENTO -->
+<div id="p2-pre">
+    <div class="p2-section">
+        <p class="section-label">Checklist pré-evento</p>
+        <h2 class="section-title">O participante chega pronto.<br>O sistema já conhece o negócio.</h2>
+        <div class="divider"></div>
+        <ul class="checklist-op">
+            <li>
+                <div class="check-num-op">1</div>
+                <div><div class="check-title-op">Setup técnico com mentor</div><div class="check-desc-op">Mentor realiza call 1:1 para instalar Claude Code e configurar o ambiente completo antes do evento.</div></div>
+            </li>
+            <li>
+                <div class="check-num-op">2</div>
+                <div><div class="check-title-op">Entrevista de DNA via WhatsApp</div><div class="check-desc-op">Agente de IA (OpenClock via N8N) conduz entrevista estruturada e extrai valores, missão, história e processos da empresa.</div></div>
+            </li>
+            <li>
+                <div class="check-num-op">3</div>
+                <div><div class="check-title-op">Geração automática da documentação</div><div class="check-desc-op">Sistema gera automaticamente o <code style="background: var(--cream-dark); padding: 1px 5px; border-radius: 3px; font-size: 0.9em;">user.md</code> e os company docs com base na entrevista.</div></div>
+            </li>
+            <li>
+                <div class="check-num-op">4</div>
+                <div><div class="check-title-op">Workspace configurado e pronto</div><div class="check-desc-op">Participante chega no evento com ambiente 100% preparado — só precisa usar os 2 dias para instalar e personalizar.</div></div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- 5. ONBOARDING -->
+<div id="p2-onboarding" class="p2-section-alt">
+    <div class="p2-section" style="padding-top: 0;">
+        <p class="section-label">Fluxo de onboarding</p>
+        <h2 class="section-title">Da compra ao evento —<br>cada etapa mapeada.</h2>
+        <div class="divider"></div>
+        <div class="flow">
+            <div class="flow-step">
+                <div class="flow-left"><div class="flow-circle">1</div><div class="flow-line"></div></div>
+                <div class="flow-content"><h4>Compra realizada</h4><p>Closer fecha a venda. Carol (ponto focal pós-venda) entra em contato, envia o contrato e garante os acessos.</p></div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-left"><div class="flow-circle">2</div><div class="flow-line"></div></div>
+                <div class="flow-content"><h4>Entrevista via WhatsApp</h4><p>Agente de IA (OpenClock via N8N) conduz entrevista automatizada e extrai o DNA completo da empresa do participante.</p></div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-left"><div class="flow-circle">3</div><div class="flow-line"></div></div>
+                <div class="flow-content"><h4>Call com mentor — Setup técnico</h4><p>Mentor instala Claude Code, prepara o ambiente e apresenta o participante ao sistema. Workspace configurado ao final da call.</p></div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-left"><div class="flow-circle">4</div><div class="flow-line"></div></div>
+                <div class="flow-content"><h4>Grupo exclusivo</h4><p>Participante entra no grupo privado com mentores e alunos avançados já performando.</p></div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-left"><div class="flow-circle">5</div><div class="flow-line"></div></div>
+                <div class="flow-content"><h4>Guia do participante</h4><p>Checklist visual de tudo que já foi feito e o que falta. Participante sabe exatamente onde está na jornada.</p></div>
+            </div>
+            <div class="flow-step">
+                <div class="flow-left"><div class="flow-circle">⚡</div></div>
+                <div class="flow-content"><h4>Quick Win em 15 dias — obrigatório para NPS</h4><p>Amanda (CS) acompanha cada participante para garantir resultado concreto nos primeiros 15 dias pós-evento.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 6. DASHBOARD -->
+<div id="p2-dashboard" class="p2-section-full p2-section-dark">
+    <div class="p2-section" style="padding-top: 0;">
+        <p class="section-label" style="color: var(--gold-light);">Dashboard — Mission Control</p>
+        <h2 class="section-title" style="color: #fff;">Todas as funcionalidades<br>do sistema visual.</h2>
+        <div class="divider"></div>
+        <div class="dashboard-grid">
+            <div class="dash-card"><span class="d-icon">🕸️</span><h4>Grafo de Squads</h4><p>Visualização tipo Figma/Miro de todos os squads e suas conexões — hierarquia em tempo real.</p></div>
+            <div class="dash-card"><span class="d-icon">⚡</span><h4>Agentes em Tempo Real</h4><p>Visualização de agentes trabalhando — status, progresso e outputs de cada tarefa ativa.</p></div>
+            <div class="dash-card"><span class="d-icon">🖥️</span><h4>12 Terminais Simultâneos</h4><p>Múltiplos processos rodando em paralelo com visibilidade total no mesmo painel.</p></div>
+            <div class="dash-card"><span class="d-icon">📊</span><h4>Monitor de Atividades</h4><p>Independente de Claude ou Gemini — monitora qualquer modelo de forma unificada.</p></div>
+            <div class="dash-card"><span class="d-icon">💰</span><h4>Insights de Gastos</h4><p>Controle de custo por squad, por tarefa e por modelo — visibilidade financeira completa.</p></div>
+            <div class="dash-card"><span class="d-icon">🗺️</span><h4>Roadmap do Projeto</h4><p>Planejamento visual de iniciativas alinhado com os objetivos do negócio.</p></div>
+            <div class="dash-card" style="grid-column: 1 / -1;"><span class="d-icon">🐙</span><h4>GitHub Issues Integrado</h4><p>Gestão de tarefas e backlog técnico diretamente no dashboard — sem sair do Mission Control.</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- 7. EQUIPE -->
+<div id="p2-equipe">
+    <div class="p2-section">
+        <p class="section-label">Equipe operacional</p>
+        <h2 class="section-title">As pessoas por trás<br>de cada etapa.</h2>
+        <div class="divider"></div>
+        <div class="equipe-grid">
+            <div class="equipe-card">
+                <div class="equipe-avatar">A</div>
+                <h4>Amanda</h4>
+                <p>CS, ascensão e acompanhamento do Quick Win nos primeiros 15 dias pós-evento</p>
+            </div>
+            <div class="equipe-card">
+                <div class="equipe-avatar">C</div>
+                <h4>Carol</h4>
+                <p>Ponto focal pós-venda — contrato, acessos e primeiro contato com o participante</p>
+            </div>
+            <div class="equipe-card">
+                <div class="equipe-avatar">L/T</div>
+                <h4>Lucas / Thalles</h4>
+                <p>Setup técnico — instalação do ambiente e suporte durante o evento</p>
+            </div>
+            <div class="equipe-card">
+                <div class="equipe-avatar">M</div>
+                <h4>Marcão</h4>
+                <p>Responsável pelo processo de onboarding high-ticket — fluxo, qualidade e experiência</p>
+            </div>
+        </div>
+        <div class="quick-win">
+            <div class="quick-win-icon">⚡</div>
+            <div>
+                <h3>Quick Win em 15 dias</h3>
+                <p>Todo participante precisa ter resultado concreto e mensurável nos primeiros 15 dias após o evento. Este é o KPI central para o NPS da imersão. Amanda lidera esse acompanhamento de forma ativa e individual.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div><!-- fim page2 -->
+
+<script>
+    function showPage(n) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('page' + n).classList.add('active');
+        document.getElementById('btn' + n).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
 
 </body>
 </html>
