@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playbook do Closer — Imersão AIOS R$100k</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0f;
+  --surface:#111118;
+  --surface2:#16161f;
+  --border:#1e1e2e;
+  --text:#f1f5f9;
+  --muted:#64748b;
+  --accent:#7c3aed;
+  --accent2:#a855f7;
+  --accent3:#c4b5fd;
+  --gold:#f59e0b;
+  --gold2:#fbbf24;
+  --green:#10b981;
+  --green2:#34d399;
+  --red:#ef4444;
+  --red2:#f87171;
+  --blue:#3b82f6;
+  --blue2:#60a5fa;
+  --orange:#f97316;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:18px;line-height:1.7}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(10,10,15,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:0;overflow-x:auto}
+.brand{font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--accent3);white-space:nowrap;padding:16px 22px 16px 0;border-right:1px solid var(--border);margin-right:20px}
+.tab-btn{background:none;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:16px;font-weight:600;padding:18px 20px;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent3);border-bottom-color:var(--accent)}
+
+/* LAYOUT */
+.panel{display:none;max-width:1400px;margin:0 auto;padding:48px 48px 100px}
+.panel.active{display:block}
+
+h1{font-size:36px;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:10px}
+h2{font-size:24px;font-weight:700;color:var(--text);margin-bottom:18px}
+h3{font-size:17px;font-weight:700;color:var(--accent3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
+.lead{font-size:19px;color:var(--muted);margin-bottom:28px}
+
+/* PHASE CARD */
+.phase{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px 28px;margin-bottom:16px;position:relative;overflow:hidden}
+.phase::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:4px 0 0 4px}
+.phase.abertura::before{background:linear-gradient(180deg,#10b981,#34d399)}
+.phase.diagnostico::before{background:linear-gradient(180deg,#3b82f6,#60a5fa)}
+.phase.ponte::before{background:linear-gradient(180deg,#f59e0b,#fbbf24)}
+.phase.apresentacao::before{background:linear-gradient(180deg,#a855f7,#c084fc)}
+.phase.fechamento::before{background:linear-gradient(180deg,#ef4444,#f97316)}
+.phase.objecao::before{background:linear-gradient(180deg,#64748b,#94a3b8)}
+
+.phase-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.phase-num{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 14px}
+.phase-title{font-size:22px;font-weight:700;color:var(--text)}
+.phase-time{font-size:14px;font-weight:700;color:var(--gold);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:20px;padding:4px 14px}
+.phase-goal{font-size:16px;color:var(--muted);background:var(--surface2);border-radius:8px;padding:12px 16px;margin-bottom:18px;font-style:italic}
+
+/* QUOTE BOX */
+.quote{background:rgba(124,58,237,.08);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:14px 20px;font-size:17px;color:var(--accent3);font-style:italic;line-height:1.7;margin:10px 0}
+.quote-green{background:rgba(16,185,129,.08);border-left:4px solid var(--green);color:var(--green2)}
+.quote-gold{background:rgba(245,158,11,.08);border-left:4px solid var(--gold);color:var(--gold2)}
+.quote-red{background:rgba(239,68,68,.08);border-left:4px solid var(--red);border-radius:0 10px 10px 0;padding:14px 20px;font-size:17px;color:var(--red2);font-style:normal;margin:10px 0;line-height:1.7}
+
+/* AVOID BOX */
+.avoid{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:14px 18px;margin-top:14px}
+.avoid-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--red);margin-bottom:10px}
+.avoid ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.avoid ul li{font-size:16px;color:#fca5a5;padding-left:22px;position:relative}
+.avoid ul li::before{content:'✕';position:absolute;left:0;color:var(--red);font-size:12px;font-weight:800;top:3px}
+
+/* DO BOX */
+.do-box{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:14px 18px;margin-top:10px}
+.do-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--green);margin-bottom:10px}
+.do-box ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.do-box ul li{font-size:16px;color:#6ee7b7;padding-left:24px;position:relative}
+.do-box ul li::before{content:'✓';position:absolute;left:0;color:var(--green);font-size:13px;font-weight:800;top:2px}
+
+/* SECTIONS */
+.section-label{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.phrase-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+
+/* FRASES TAB */
+.frase-group{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:14px}
+.frase-group-title{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.dot-green{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
+.dot-blue{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0}
+.dot-gold{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.dot-purple{width:8px;height:8px;border-radius:50%;background:var(--accent2);flex-shrink:0}
+.dot-red{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0}
+.dot-orange{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0}
+
+.frase-item{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px 20px;font-size:17px;color:var(--accent3);font-style:italic;line-height:1.65;cursor:pointer;transition:all .15s}
+.frase-item:hover{border-color:var(--accent);background:rgba(124,58,237,.08)}
+.frase-context{font-size:14px;color:var(--muted);font-style:normal;display:block;margin-top:6px}
+
+/* OBJEÇÕES TAB */
+.obj-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.obj-header{padding:16px 22px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:background .15s}
+.obj-header:hover{background:var(--surface2)}
+.obj-title-wrap{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.obj-pill{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:5px 14px;border-radius:20px;flex-shrink:0}
+.obj-pill.alta{background:rgba(239,68,68,.15);color:var(--red2)}
+.obj-pill.media{background:rgba(245,158,11,.15);color:var(--gold2)}
+.obj-pill.baixa{background:rgba(59,130,246,.15);color:var(--blue2)}
+.obj-title{font-size:18px;font-weight:600;color:var(--text);font-style:italic}
+.obj-chevron{color:var(--muted);font-size:26px;flex-shrink:0;transition:transform .25s}
+.obj-body{display:none;padding:0 28px 28px;border-top:1px solid var(--border)}
+.obj-body.open{display:block}
+.obj-card.open .obj-chevron{transform:rotate(180deg)}
+
+.obj-step{margin-top:16px}
+.obj-step-label{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.step-num{width:26px;height:26px;border-radius:50%;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-diag .step-num{background:rgba(59,130,246,.2);color:var(--blue2)}
+.step-diag .obj-step-label{color:var(--blue2)}
+.step-resp .step-num{background:rgba(16,185,129,.2);color:var(--green2)}
+.step-resp .obj-step-label{color:var(--green2)}
+.step-reclose .step-num{background:rgba(239,68,68,.2);color:var(--red2)}
+.step-reclose .obj-step-label{color:var(--red2)}
+.step-escape .step-num{background:rgba(245,158,11,.2);color:var(--gold2)}
+.step-escape .obj-step-label{color:var(--gold2)}
+
+/* ERROS TAB */
+.erro-card{background:var(--surface);border:1px solid rgba(239,68,68,.2);border-radius:14px;padding:24px 28px;margin-bottom:14px;position:relative;overflow:hidden}
+.erro-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--red);border-radius:4px 0 0 4px}
+.erro-num{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--red);margin-bottom:8px}
+.erro-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:12px}
+.erro-why{font-size:17px;color:var(--muted);margin-bottom:14px;line-height:1.7}
+.erro-fix{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:14px 18px;font-size:16px;color:var(--green2);line-height:1.7}
+.erro-fix-label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);margin-bottom:6px}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:24px 0}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600;color:var(--muted)}
+
+/* STAT ROW */
+.stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px;flex:1;min-width:120px}
+.stat-num{font-size:32px;font-weight:800;color:var(--text)}
+.stat-num.g{color:var(--green)}
+.stat-num.gold{color:var(--gold)}
+.stat-num.red{color:var(--red)}
+.stat-label{font-size:15px;color:var(--muted);margin-top:4px}
+
+/* ALERT */
+.alert{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:14px 18px;margin-bottom:24px}
+.alert p{font-size:17px;color:var(--accent3);line-height:1.7}
+.alert strong{color:var(--accent3)}
+
+/* FOOTER */
+.footer{text-align:center;padding:28px;font-size:15px;color:var(--muted);border-top:1px solid var(--border);margin-top:40px}
+
+/* PRINT */
+@media print{
+  .topbar{position:relative}
+  .pdf-btn{display:none}
+  .panel{display:block!important;page-break-after:always}
+  body{background:#fff;color:#000}
+}
+
+/* PDF BTN */
+.pdf-btn{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:12px 22px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(124,58,237,.4);z-index:200;transition:all .2s}
+.pdf-btn:hover{background:var(--accent2);transform:translateY(-2px)}
+
+/* TECHNIQUE BOX */
+.technique{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin:10px 0}
+.technique-label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:10px}
+.technique p{font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:8px}
+
+.rule-box{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:10px;padding:14px 18px;margin:10px 0;font-size:17px;color:#fca5a5;line-height:1.7}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+@media(max-width:600px){.two-col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">Playbook · Closer</div>
+  <button class="tab-btn active" onclick="showTab('roteiro',this)">Roteiro da Call</button>
+  <button class="tab-btn" onclick="showTab('frases',this)">Frases Prontas</button>
+  <button class="tab-btn" onclick="showTab('objecoes',this)">Objeções</button>
+  <button class="tab-btn" onclick="showTab('erros',this)">Erros Fatais</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 1 — ROTEIRO
+══════════════════════════════════════════ -->
+<div id="roteiro" class="panel active">
+
+  <h1>Playbook do Closer</h1>
+  <p class="lead">Imersão AIOS · Ticket R$100.000 · Baseado em 47 calls reais com Peçanha + 5 calls com Duarte · Fev/2026</p>
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-num g">20%</div><div class="stat-label">Close rate atual</div></div>
+    <div class="stat-box"><div class="stat-num gold">~40 min</div><div class="stat-label">Duração ideal da call</div></div>
+    <div class="stat-box"><div class="stat-num">5+</div><div class="stat-label">Closes confirmados</div></div>
+    <div class="stat-box"><div class="stat-num red">~14x</div><div class="stat-label">Objeção mais comum: sócio</div></div>
+  </div>
+
+  <div class="alert">
+    <p><strong>Regra de ouro:</strong> Você não está vendendo um evento. Está vendendo a eliminação de um problema que o empresário já sabe que tem. Diagnostique primeiro. Apresente depois. Feche sempre.</p>
+  </div>
+
+  <!-- ANTES DA CALL -->
+  <div style="background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.3);border-radius:16px;padding:22px 28px;margin-bottom:16px">
+    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:14px">⚡ Antes de ligar — cheque no CRM / Sheets</div>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:14px">O lead já preencheu o formulário. Você já sabe tudo isso antes de abrir a boca:</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px">Categoria</div>
+        <div style="font-size:14px;color:var(--text)">Dono / Empresário · Sócio · Diretor</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px">Faturamento</div>
+        <div style="font-size:14px;color:var(--text)">&lt;500k · 500k–1M · 1M–5M · +5M</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px">Colaboradores</div>
+        <div style="font-size:14px;color:var(--text)">Até 5 · 6–15 · 16–30 · +30</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px">Floripa</div>
+        <div style="font-size:14px;color:var(--green2)">"Sim, sem dúvida!" &nbsp;·&nbsp; <span style="color:var(--gold2)">"Preciso ajustar a agenda"</span></div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px">Investir R$100k</div>
+        <div style="font-size:14px;color:var(--text)"><span style="color:var(--green2)">"Claro! Quero aplicar..."</span> &nbsp;·&nbsp; <span style="color:var(--red2)">"Não estou preparado..."</span></div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px 16px;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:10px;font-size:14px;color:#fca5a5;line-height:1.6">
+      <strong style="color:var(--red2)">Atenção:</strong> Se o lead marcou <em>"Não, não estou preparado para investir R$100k"</em> — ele ainda pode fechar. Ele preencheu o formulário e aceitou a call. O medo de investir é uma objeção a ser trabalhada, não uma disqualificação. Use a aba Objeções → #2 e #4.
+    </div>
+  </div>
+
+  <!-- FASE 1 -->
+  <div class="phase abertura">
+    <div class="phase-header">
+      <span class="phase-num">Fase 1</span>
+      <span class="phase-title">Abertura e Contrato Social</span>
+      <span class="phase-time">0–3 min</span>
+    </div>
+    <p class="phase-goal">Objetivo: Criar ambiente de confiança, confirmar disponibilidade e ancorar o roteiro da conversa. O lead já sabe o que é a Imersão e que custa R$100k — não explique isso, pergunte sobre ele.</p>
+
+    <div class="section-label">O que fazer — abra com o nome e uma referência do formulário</div>
+    <div class="phrase-list">
+      <div class="quote green">"[Nome], boa tarde! Você está em um lugar tranquilo para conversar os próximos 40 minutos?"</div>
+      <div class="quote green">"Perfeito. Antes de tudo, deixa eu te explicar como vai ser: vou te fazer algumas perguntas para entender melhor a sua empresa, depois mostro como a Imersão funciona na prática, e aí você decide se faz sentido. Combinado?"</div>
+      <div class="quote green">"Vi aqui que você é [categoria] e fatura [faixa de faturamento]. Me conta um pouco mais — qual é o seu principal negócio hoje?"</div>
+    </div>
+
+    <div class="do-box">
+      <div class="do-title">Faça isso</div>
+      <ul>
+        <li>Use os dados do formulário para personalizar desde a primeira frase</li>
+        <li>Se floripa = "Preciso ajustar a agenda" → pergunte antes de apresentar: "Vi que você mencionou que precisa ajustar agenda para Floripa. Isso já está resolvido?"</li>
+        <li>Se tem sócio como decisor → tente incluir na call agora: "Seu sócio consegue entrar? Assim a gente não volta o mesmo assunto depois."</li>
+        <li>Ancore os 40 minutos — define que é uma conversa séria</li>
+      </ul>
+    </div>
+
+    <div class="avoid">
+      <div class="avoid-title">Nunca faça na abertura</div>
+      <ul>
+        <li>Perguntar "você já ouviu falar da Imersão?" — ele já sabe, veio de uma live e preencheu o formulário</li>
+        <li>Explicar o preço de novo — ele já sabe que é R$100k, estava no formulário</li>
+        <li>Começar a falar do produto antes de ouvir o negócio dele</li>
+        <li>Deixar o lead conduzir o ritmo da call</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="phase diagnostico">
+    <div class="phase-header">
+      <span class="phase-num">Fase 2</span>
+      <span class="phase-title">Diagnóstico — SPIN</span>
+      <span class="phase-time">3–18 min</span>
+    </div>
+    <p class="phase-goal">Objetivo: Descobrir a DOR real, a situação atual e fazer o cliente verbalizar o problema. Quem fala mais aqui é ELE, não você.</p>
+
+    <div class="section-label">S — Situação (entender o negócio)</div>
+    <div class="phrase-list">
+      <div class="quote">"Me conta um pouco da sua empresa: o que você faz, quanto tempo de mercado, e onde está hoje em termos de faturamento?"</div>
+      <div class="quote">"Como você usa IA hoje no seu negócio? Tem alguma coisa implementada ou ainda é zero?"</div>
+      <div class="quote">"Você tem sócios? Eles estão alinhados com a direção da empresa para o próximo ano?"</div>
+    </div>
+
+    <div class="section-label" style="margin-top:14px">P — Problema (a dor que ele carrega)</div>
+    <div class="phrase-list">
+      <div class="quote">"Qual é o maior gargalo que está travando o crescimento da sua empresa hoje?"</div>
+      <div class="quote">"Onde você mais perde tempo ou dinheiro com processos que poderiam ser automatizados?"</div>
+      <div class="quote">"Se você não resolver isso nos próximos 6 meses, o que acontece com o negócio?"</div>
+    </div>
+
+    <div class="section-label" style="margin-top:14px">I — Implicação (ampliar a dor)</div>
+    <div class="phrase-list">
+      <div class="quote">"Você sente que os seus concorrentes já estão se movendo com IA? Como você vê esse cenário daqui a 1 ano?"</div>
+      <div class="quote">"Quanto isso está custando para você por mês — em tempo, em dinheiro, em oportunidade perdida?"</div>
+      <div class="quote">"Se você continuar sem isso, onde você se vê em 12 meses em relação a quem já implementou?"</div>
+    </div>
+
+    <div class="section-label" style="margin-top:14px">N — Necessidade (ele chega na conclusão sozinho)</div>
+    <div class="phrase-list">
+      <div class="quote">"Se você resolvesse [DOR que ele mencionou], o que isso mudaria para o seu negócio?"</div>
+      <div class="quote">"Quanto valeria para você ter isso implementado e funcionando em 2 dias?"</div>
+    </div>
+
+    <div class="avoid">
+      <div class="avoid-title">Nunca faça no diagnóstico</div>
+      <ul>
+        <li>Interromper para falar do produto antes de ele terminar de falar</li>
+        <li>Pular o diagnóstico porque "ele já parece convencido"</li>
+        <li>Fazer mais de uma pergunta ao mesmo tempo</li>
+        <li>Não anotar — o que ele falar aqui é ouro para o fechamento</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FASE 3 -->
+  <div class="phase ponte">
+    <div class="phase-header">
+      <span class="phase-num">Fase 3</span>
+      <span class="phase-title">A Ponte — Conectar Dor à Solução</span>
+      <span class="phase-time">18–22 min</span>
+    </div>
+    <p class="phase-goal">Objetivo: Usar EXATAMENTE as palavras que ele usou para conectar o que ele disse com o que a Imersão resolve.</p>
+
+    <div class="section-label">Técnica: Espelho + Ponte</div>
+    <div class="phrase-list">
+      <div class="quote gold">"Você acabou de me falar que [REPITA A DOR DELE COM AS PALAVRAS DELE]. É exatamente esse problema que a Imersão foi construída para resolver. Posso te mostrar como?"</div>
+      <div class="quote gold">"Então o que você precisa é [RESUMO DA NECESSIDADE DELE]. Isso é exatamente o que dois dias em Floripa vão mudar. Posso explicar o que acontece lá?"</div>
+    </div>
+
+    <div class="do-box">
+      <div class="do-title">Por que funciona</div>
+      <ul>
+        <li>Você prova que ouviu — cria confiança</li>
+        <li>Ele confirma a dor antes de você apresentar — compromisso psicológico</li>
+        <li>A transição para apresentação é natural, não forçada</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FASE 4 -->
+  <div class="phase apresentacao">
+    <div class="phase-header">
+      <span class="phase-num">Fase 4</span>
+      <span class="phase-title">Apresentação Seletiva</span>
+      <span class="phase-time">22–32 min</span>
+    </div>
+    <p class="phase-goal">Objetivo: Apresentar APENAS o que resolve a dor que ele verbalizou. Não faça dump de features. Cada ponto que você fala deve referenciar algo que ele disse.</p>
+
+    <div class="section-label">Estrutura da apresentação (nessa ordem)</div>
+    <div class="phrase-list">
+      <div class="quote">"A Imersão é 2 dias presenciais com Alan Nikolas e Thiago Finch — as duas maiores referências em automação e escala com IA no Brasil."</div>
+      <div class="quote">"Você não sai com teoria. Sai com o sistema implementado e funcionando. O setup técnico é feito ANTES do evento com um mentor."</div>
+      <div class="quote">"Os empresários que passaram pela última imersão saíram com o equivalente a 10 profissionais de tecnologia rodando por R$109 mil por mês. O investimento se paga em menos de 7 dias úteis."</div>
+      <div class="quote">"São 30 vagas. Você está conversando com a gente porque sua aplicação passou por um filtro — não é para qualquer pessoa."</div>
+    </div>
+
+    <div class="do-box">
+      <div class="do-title">Âncoras de valor que fecham</div>
+      <ul>
+        <li><strong>ROI tangível:</strong> R$109k/mês economizados vs R$100k investidos = payback em 7 dias</li>
+        <li><strong>Exclusividade real:</strong> 30 vagas, processo seletivo, sala de empresários</li>
+        <li><strong>Resultado garantido:</strong> sai com o sistema rodando, não com slides</li>
+        <li><strong>Speakers:</strong> Alan Nikolas + Thiago Finch — os dois juntos em Floripa</li>
+        <li><strong>Peer group:</strong> "Você vai estar na sala com empresários que faturam o que você quer faturar"</li>
+      </ul>
+    </div>
+
+    <div class="avoid">
+      <div class="avoid-title">Erros de apresentação</div>
+      <ul>
+        <li>Falar de tudo o que inclui no produto (faz parecer mais barato, não mais caro)</li>
+        <li>Falar o preço antes de terminar de construir valor</li>
+        <li>Deixar ele consultar o celular ou sair da tela</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FASE 5 -->
+  <div class="phase fechamento">
+    <div class="phase-header">
+      <span class="phase-num">Fase 5</span>
+      <span class="phase-title">Fechamento Assumptivo</span>
+      <span class="phase-time">32–40 min</span>
+    </div>
+    <p class="phase-goal">Objetivo: Presumir que ele vai comprar. Nunca perguntar "O que você acha?". Direcionar para a forma de pagamento.</p>
+
+    <div class="section-label">Técnica 1 — Fechamento Direto</div>
+    <div class="quote green">"Faz sentido para você? Então de qual forma você prefere fazer: PIX à vista ou cartão?"</div>
+
+    <div class="section-label" style="margin-top:12px">Técnica 2 — Fechamento por Alternativa</div>
+    <div class="quote green">"Você prefere confirmar sua vaga agora enquanto estamos aqui, ou vai precisar antes alinhar com seu sócio?"</div>
+
+    <div class="section-label" style="margin-top:12px">Técnica 3 — Fechamento por Dor (usar o que ele disse)</div>
+    <div class="quote green">"Você me disse que [DOR DELE]. Cada mês que você fica sem resolver isso, quanto você está perdendo? Vamos resolver isso agora."</div>
+
+    <div class="section-label" style="margin-top:12px">Técnica 4 — Urgência Real</div>
+    <div class="quote green">"Hoje [X] vagas já foram confirmadas. Quando você tiver a decisão tomada, pode não ter mais vaga disponível. O que precisa acontecer para você confirmar agora?"</div>
+
+    <div class="divider"></div>
+    <h3 style="margin-bottom:10px">Após o Sim — REGRA ABSOLUTA</h3>
+    <div class="do-box">
+      <div class="do-title">Você não desliga antes de fazer isso</div>
+      <ul>
+        <li>Enviar o link de pagamento durante a call (PIX ou cartão)</li>
+        <li>Enviar o contrato digital (Clicksign/DocuSign) para assinatura imediata</li>
+        <li>Confirmar que ele recebeu ambos antes de desligar</li>
+        <li>Se o pagamento der problema: ficar na linha e resolver junto</li>
+      </ul>
+    </div>
+
+    <div class="avoid">
+      <div class="avoid-title">Erros no fechamento</div>
+      <ul>
+        <li>"O que você achou?" — abre espaço para hesitação</li>
+        <li>"Fica à vontade para pensar" — equivale a perder a venda</li>
+        <li>Aceitar "vou pensar e te falo" sem agendar data e hora exata de retorno</li>
+        <li>Desligar antes de enviar contrato + link de pagamento</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FASE 6 -->
+  <div class="phase objecao">
+    <div class="phase-header">
+      <span class="phase-num">Fase 6</span>
+      <span class="phase-title">Gestão de Objeção → Reclose</span>
+      <span class="phase-time">se necessário</span>
+    </div>
+    <p class="phase-goal">Objetivo: Identificar a objeção real (não a aparente), responder com calma e reclosar imediatamente. Máximo 2 objeções antes de escalar.</p>
+
+    <div class="section-label">Protocolo de 4 passos</div>
+    <div class="phrase-list">
+      <div class="quote">1. RECONHEÇA: "Entendo totalmente." / "Faz sentido você pensar nisso."</div>
+      <div class="quote">2. ISOLE: "Fora [objeção], tem mais alguma coisa que impediria você de confirmar hoje?"</div>
+      <div class="quote">3. RESPONDA: use o script da aba Objeções ao lado</div>
+      <div class="quote">4. RECLOSE: "Com isso resolvido, faz sentido confirmar agora?"</div>
+    </div>
+
+    <div class="technique">
+      <div class="technique-label">Escalada — usar se não fechar após 2 objeções</div>
+      <p>"[Nome], vou ser honesto com você: acho que faz muito sentido o Alan ou o Finch falar com você diretamente. São 15 minutos. Você teria disponibilidade ainda essa semana?"</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 2 — FRASES PRONTAS
+══════════════════════════════════════════ -->
+<div id="frases" class="panel">
+
+  <h1>Frases Prontas</h1>
+  <p class="lead">Copie, adapte e pratique. Cada frase foi construída a partir dos padrões dos closes reais.</p>
+
+  <div class="frase-group">
+    <div class="frase-group-title"><span class="dot-green"></span> Abertura e Contrato Social</div>
+    <div class="phrase-list">
+      <div class="frase-item">"[Nome], boa tarde! Você está em um lugar tranquilo para conversar os próximos 40 minutos?"<span class="frase-context">Sempre. Define tom de seriedade e confirma disponibilidade.</span></div>
+      <div class="frase-item">"Perfeito. Aqui vai como vai ser: te faço algumas perguntas, depois mostro como a Imersão funciona na prática, e você decide. Combinado?"<span class="frase-context">Ancora a estrutura. Evita que ele tome o controle.</span></div>
+      <div class="frase-item">"Vi aqui que você é [categoria] e fatura [faixa]. Me conta mais — qual é o seu principal negócio hoje?"<span class="frase-context">Use os dados do formulário. Mostra preparo e abre diagnóstico de forma natural. Não pergunte o que você já sabe.</span></div>
+      <div class="frase-item">"Vi que você mencionou no formulário que precisa ajustar agenda para Floripa. Isso já está resolvido, ou ainda é um ponto em aberto?"<span class="frase-context">Use se floripa = "Preciso ajustar agenda". Resolva isso ANTES de apresentar — se não vai poder ir, não faz sentido continuar.</span></div>
+    </div>
+  </div>
+
+  <div class="frase-group">
+    <div class="frase-group-title"><span class="dot-blue"></span> Diagnóstico — Perguntas que Abrem</div>
+    <div class="phrase-list">
+      <div class="frase-item">"Me conta o seu maior gargalo hoje. Onde você mais perde tempo ou dinheiro?"<span class="frase-context">Abre diagnóstico. Espere ele falar. Não complete a frase.</span></div>
+      <div class="frase-item">"Se você não resolver isso nos próximos 6 meses, o que acontece com a sua empresa?"<span class="frase-context">Implicação — amplifica a dor sem você precisar dizer nada.</span></div>
+      <div class="frase-item">"Seus concorrentes já estão usando IA. Como você vê isso afetando o mercado no próximo ano?"<span class="frase-context">Ativa o medo de ficar para trás — motor de decisão poderoso.</span></div>
+      <div class="frase-item">"Quanto valeria para você ter esse problema resolvido em 48 horas?"<span class="frase-context">Necessidade — ele precisa verbalizar o valor antes de você falar o preço.</span></div>
+      <div class="frase-item">"Se amanhã você acordasse com tudo isso funcionando automaticamente, o que mudaria no seu dia a dia?"<span class="frase-context">Cria a visão do futuro desejado. Poderoso antes da apresentação.</span></div>
+    </div>
+  </div>
+
+  <div class="frase-group">
+    <div class="frase-group-title"><span class="dot-purple"></span> Apresentação — Frases de Alto Impacto</div>
+    <div class="phrase-list">
+      <div class="frase-item">"Você não vai sair com teoria. Vai sair com o sistema implementado e rodando — o setup técnico começa antes do evento."<span class="frase-context">Quebra o medo de "não estar pronto". Use sempre.</span></div>
+      <div class="frase-item">"Os empresários que passaram pela última turma substituíram o equivalente a 10 profissionais de tecnologia. São R$109 mil por mês economizados. O investimento se paga em menos de 7 dias úteis."<span class="frase-context">ROI concreto. Use quando falar de preço pela primeira vez.</span></div>
+      <div class="frase-item">"São 30 vagas. Você está nessa conversa porque sua aplicação passou por um filtro. Não é qualquer pessoa que chega aqui."<span class="frase-context">Exclusividade + validação. Eleva o status dele e o valor da vaga.</span></div>
+      <div class="frase-item">"O Alan e o Finch estão juntos em Floripa por 2 dias. Isso não acontece todo mês."<span class="frase-context">Escassez genuína. Reforça urgência.</span></div>
+      <div class="frase-item">"Você vai estar numa sala com empresários que faturam o que você quer faturar. Às vezes a maior transformação acontece fora do palco."<span class="frase-context">Peer group — argumento que convenceu André (crypto, R$95k).</span></div>
+    </div>
+  </div>
+
+  <div class="frase-group">
+    <div class="frase-group-title"><span class="dot-red"></span> Fechamento — Frases que Decidem</div>
+    <div class="phrase-list">
+      <div class="frase-item">"Faz sentido para você? De qual forma você prefere: PIX à vista ou cartão?"<span class="frase-context">Fechamento direto assumptivo. Use assim que ele confirmar entendimento.</span></div>
+      <div class="frase-item">"O que precisa acontecer para você confirmar sua vaga hoje?"<span class="frase-context">Se hesitar. Força ele a verbalizar o bloqueio real.</span></div>
+      <div class="frase-item">"Você me disse que [DOR]. Cada mês sem resolver isso, quanto você está perdendo? Vamos resolver isso agora."<span class="frase-context">Fechamento por dor. Use as palavras EXATAS que ele usou.</span></div>
+      <div class="frase-item">"Quando você tiver a decisão, pode não ter mais vaga. O que você precisa para confirmar enquanto ainda tem?"<span class="frase-context">Urgência real. Use com dados reais do pipeline.</span></div>
+    </div>
+  </div>
+
+  <div class="frase-group">
+    <div class="frase-group-title"><span class="dot-gold"></span> Reativação — Silêncio, Hesitação, "Deixa eu pensar"</div>
+    <div class="phrase-list">
+      <div class="frase-item">"Entendo. O que exatamente você quer pensar? Às vezes vale a pena falar sobre isso agora que estamos juntos."<span class="frase-context">Não deixe o "vou pensar" virar um fim de conversa.</span></div>
+      <div class="frase-item">"Se não fosse [objeção que ele deu], você confirmaria hoje?"<span class="frase-context">Isola a objeção real. Se ele disser sim, a objeção é tratável.</span></div>
+      <div class="frase-item">"Fora isso, tem mais alguma coisa que impediria você de seguir?"<span class="frase-context">Descobre se tem mais objeci&otilde;es antes de responder à primeira.</span></div>
+      <div class="frase-item">"Posso ser direto? Você me parece convicto do valor. O que está travando a decisão de fato?"<span class="frase-context">Quebre o protocolo social se ele estiver claramente "em cima do muro".</span></div>
+    </div>
+  </div>
+
+  <div class="frase-group">
+    <div class="frase-group-title"><span class="dot-orange"></span> Escalada — Quando Incluir Alan ou Finch</div>
+    <div class="phrase-list">
+      <div class="frase-item">"Sabe o que eu vou fazer? Vou conectar você diretamente com o Alan. São 15 minutos. Quando você teria disponibilidade essa semana?"<span class="frase-context">Use após 2 objeções sem fechar. Não peça permissão — proponha.</span></div>
+      <div class="frase-item">"O Finch gosta de conversar com quem está quase decidindo. Deixa eu verificar a agenda dele para essa semana."<span class="frase-context">Eleva o status da conversa. Funciona com empresários de ego.</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 3 — OBJEÇÕES
+══════════════════════════════════════════ -->
+<div id="objecoes" class="panel">
+
+  <h1>Mapa de Objeções</h1>
+  <p class="lead">47 calls analisadas. Clique em cada objeção para ver o diagnóstico, o script de resposta e como reclosar.</p>
+
+  <!-- OBJ 1 -->
+  <div class="obj-card" id="c1">
+    <div class="obj-header" onclick="toggleObj('c1')">
+      <div class="obj-title-wrap">
+        <span class="obj-pill alta">#1 Alta — ~14 calls</span>
+        <span class="obj-title">"Preciso consultar meu sócio / parceiro antes."</span>
+      </div>
+      <span class="obj-chevron">›</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-step step-diag">
+        <div class="obj-step-label"><span class="step-num">1</span> Diagnóstico — entenda qual é</div>
+        <div class="quote">"Entendo. Quando você fala em consultar seu sócio, ele costuma participar das decisões de investimento dessa escala ou é mais uma questão de alinhamento?"</div>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:8px">Se o sócio é DECISOR → tente incluí-lo na call agora ou agende uma segunda call com os dois. Se é ALINHAMENTO → ajude a preparar o argumento dele.</p>
+      </div>
+      <div class="obj-step step-resp">
+        <div class="obj-step-label"><span class="step-num">2</span> Resposta</div>
+        <div class="quote green">"Perfeito. Quando você for falar com ele, qual vai ser a principal preocupação dele — o valor do investimento, o ROI, ou o timing?"</div>
+        <div class="quote green">"Posso te ajudar com isso. Deixa eu te mandar agora o resumo executivo com os números para você apresentar para ele. E se ele quiser uma call rápida de 15 minutos com a gente, a gente faz."</div>
+      </div>
+      <div class="obj-step step-reclose">
+        <div class="obj-step-label"><span class="step-num">3</span> Reclose</div>
+        <div class="quote green">"Quando você vai falar com ele — hoje à noite ou amanhã de manhã? Posso deixar marcada uma call para depois disso, assim a gente fecha enquanto está fresco."</div>
+      </div>
+      <div class="obj-step step-escape">
+        <div class="obj-step-label"><span class="step-num">4</span> Se não avançar</div>
+        <p style="font-size:12.5px;color:var(--muted)">Ofereça call com Alan/Finch junto ao sócio. Essa é a virada mais poderosa para objeção de autoridade.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJ 2 -->
+  <div class="obj-card" id="c2">
+    <div class="obj-header" onclick="toggleObj('c2')">
+      <div class="obj-title-wrap">
+        <span class="obj-pill alta">#2 Alta — ~10 calls</span>
+        <span class="obj-title">"Não tenho o dinheiro agora / fluxo de caixa apertado."</span>
+      </div>
+      <span class="obj-chevron">›</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-step step-diag">
+        <div class="obj-step-label"><span class="step-num">1</span> Diagnóstico — entenda qual é</div>
+        <div class="quote">"Quando você fala de fluxo de caixa, o dinheiro não existe hoje, ou está comprometido em outro lugar?"</div>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:8px">Se comprometido: pergunte o que seria preciso desfazer. Se não existe: não insista — este lead não está pronto.</p>
+      </div>
+      <div class="obj-step step-resp">
+        <div class="obj-step-label"><span class="step-num">2</span> Resposta (quando o dinheiro existe mas está alocado)</div>
+        <div class="quote green">"Entendo. Deixa eu te fazer uma pergunta: se em 30 dias você pudesse recuperar o investimento com o que vai implementar na Imersão, isso mudaria o cálculo para você?"</div>
+        <div class="quote green">"O que os empresários da última turma relatam é que em menos de 7 dias úteis o sistema já pagou a entrada. R$109 mil por mês economizados com equipe de tecnologia que você não vai precisar contratar."</div>
+      </div>
+      <div class="obj-step step-reclose">
+        <div class="obj-step-label"><span class="step-num">3</span> Reclose</div>
+        <div class="quote green">"Com o cartão, você consegue parcelar — o gasto sai no mês que o retorno já está entrando. Você tem limite disponível?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJ 3 -->
+  <div class="obj-card" id="c3">
+    <div class="obj-header" onclick="toggleObj('c3')">
+      <div class="obj-title-wrap">
+        <span class="obj-pill alta">#3 Alta — ~6 calls</span>
+        <span class="obj-title">"Tenho medo de não estar preparado / não ter aproveitamento."</span>
+      </div>
+      <span class="obj-chevron">›</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-step step-diag">
+        <div class="obj-step-label"><span class="step-num">1</span> Diagnóstico</div>
+        <div class="quote">"Entendo. Me conta: qual parte você sente que ainda não está pronto? É a parte técnica, de programação, ou é mais uma questão de maturidade do negócio?"</div>
+      </div>
+      <div class="obj-step step-resp">
+        <div class="obj-step-label"><span class="step-num">2</span> Resposta</div>
+        <div class="quote green">"Você não precisa saber programar. Antes do evento, um mentor faz o setup técnico com você. Na Imersão, você sai com o sistema rodando — não é um curso, é mão na massa."</div>
+        <div class="quote green">"Os alunos com mais resultado às vezes são os de setores mais tradicionais — exatamente porque têm mais para automatizar. Quanto mais você ainda não fez, mais a Imersão vai transformar."</div>
+      </div>
+      <div class="obj-step step-reclose">
+        <div class="obj-step-label"><span class="step-num">3</span> Reclose</div>
+        <div class="quote green">"A questão não é estar pronto — é sair de lá pronto. Isso é o que a Imersão entrega. Faz sentido confirmar sua vaga agora?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJ 4 -->
+  <div class="obj-card" id="c4">
+    <div class="obj-header" onclick="toggleObj('c4')">
+      <div class="obj-title-wrap">
+        <span class="obj-pill media">#4 Média — ~5 calls</span>
+        <span class="obj-title">"Não consigo calcular o ROI / não sei se vale."</span>
+      </div>
+      <span class="obj-chevron">›</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-step step-resp">
+        <div class="obj-step-label"><span class="step-num">1</span> Resposta — faça o cálculo na call</div>
+        <div class="quote green">"Vamos calcular agora. Quantos profissionais de tecnologia, automação ou operações você teria que contratar para ter o que a Imersão entrega? Um dev sênior custa R$10k/mês. 10 deles = R$100k/mês. O investimento se paga em menos de 7 dias úteis."</div>
+        <div class="quote green">"Fora isso: quanto vale para você ganhar 2 horas por dia de volta? Em 30 dias são 60 horas. Multiplique pela sua hora."</div>
+      </div>
+      <div class="obj-step step-reclose">
+        <div class="obj-step-label"><span class="step-num">2</span> Reclose</div>
+        <div class="quote green">"Com esse cálculo, o risco real é não ir. Faz sentido confirmar agora?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJ 5 -->
+  <div class="obj-card" id="c5">
+    <div class="obj-header" onclick="toggleObj('c5')">
+      <div class="obj-title-wrap">
+        <span class="obj-pill media">#5 Média — ~5 calls</span>
+        <span class="obj-title">"Não é agora. Talvez na próxima turma."</span>
+      </div>
+      <span class="obj-chevron">›</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-step step-diag">
+        <div class="obj-step-label"><span class="step-num">1</span> Diagnóstico</div>
+        <div class="quote">"Quando você fala em próxima turma, o que precisa mudar até lá para você se sentir pronto para confirmar?"</div>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:8px">Se ele listar algo concreto: resolva agora. Se for vago: é objeção de comprometimento, não de timing.</p>
+      </div>
+      <div class="obj-step step-resp">
+        <div class="obj-step-label"><span class="step-num">2</span> Resposta</div>
+        <div class="quote green">"A próxima turma não está confirmada ainda — e quando estiver, vai estar lotada. Você vai estar competindo com pessoas que já decidiram agora."</div>
+        <div class="quote green">"Cada mês que você adia, um concorrente seu está implementando. O custo de esperar é real."</div>
+      </div>
+      <div class="obj-step step-reclose">
+        <div class="obj-step-label"><span class="step-num">3</span> Reclose</div>
+        <div class="quote green">"O que você precisaria ver ou ouvir para confirmar hoje em vez de na próxima turma?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJ 6 -->
+  <div class="obj-card" id="c6">
+    <div class="obj-header" onclick="toggleObj('c6')">
+      <div class="obj-title-wrap">
+        <span class="obj-pill media">#6 Média — ~3 calls</span>
+        <span class="obj-title">"Preciso de aprovação do meu cônjuge / família."</span>
+      </div>
+      <span class="obj-chevron">›</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-step step-resp">
+        <div class="obj-step-label"><span class="step-num">1</span> Resposta</div>
+        <div class="quote green">"Faz todo sentido. Decisões desse porte têm que ser compartilhadas. O que eu posso fazer para ajudar vocês a decidirem juntos?"</div>
+        <div class="quote green">"Quer que eu mande um resumo com os pontos principais para você apresentar para ela/ele hoje?"</div>
+      </div>
+      <div class="obj-step step-reclose">
+        <div class="obj-step-label"><span class="step-num">2</span> Reclose</div>
+        <div class="quote green">"Quando você vai conversar com ela/ele — hoje ou amanhã? A gente pode falar depois disso enquanto ainda está fresco. Que horário funciona?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJ 7 -->
+  <div class="obj-card" id="c7">
+    <div class="obj-header" onclick="toggleObj('c7')">
+      <div class="obj-title-wrap">
+        <span class="obj-pill media">#7 Média — ~3 calls</span>
+        <span class="obj-title">"Tive problema com o pagamento." (cartão recusado, limite, USD)</span>
+      </div>
+      <span class="obj-chevron">›</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-step step-resp">
+        <div class="obj-step-label"><span class="step-num">1</span> Resposta — nunca desacelere aqui</div>
+        <div class="quote green">"Fica tranquilo, a gente resolve isso agora. Você tem outro cartão disponível, ou prefere tentar o PIX?"</div>
+        <div class="quote green">"Se for limite, você consegue liberar com a operadora? Às vezes uma ligação rápida resolve na hora."</div>
+      </div>
+      <div class="do-box">
+        <div class="do-title">Regra — não desligue com pagamento em aberto</div>
+        <ul>
+          <li>Fique na linha enquanto ele resolve o pagamento</li>
+          <li>Ofereça todas as alternativas: PIX, cartão débito, cartão crédito, transferência</li>
+          <li>Se não resolver hoje: agende retorno para o próximo dia útil com data e hora</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJ 8 -->
+  <div class="obj-card" id="c8">
+    <div class="obj-header" onclick="toggleObj('c8')">
+      <div class="obj-title-wrap">
+        <span class="obj-pill baixa">#8 Baixa — ~3 calls</span>
+        <span class="obj-title">"Quero ver funcionando na prática, não no papel."</span>
+      </div>
+      <span class="obj-chevron">›</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-step step-resp">
+        <div class="obj-step-label"><span class="step-num">1</span> Resposta</div>
+        <div class="quote green">"Perfeito — isso é exatamente o que a Imersão é. Não tem slide. Tem sistema rodando em tempo real. O Alan vai demonstrar ao vivo o que você vai implementar."</div>
+        <div class="quote green">"Se você quiser ver algo antes de decidir, posso conectar você com alguém que passou pela última turma. 10 minutos de conversa."</div>
+      </div>
+      <div class="obj-step step-reclose">
+        <div class="obj-step-label"><span class="step-num">2</span> Reclose</div>
+        <div class="quote green">"Mas a melhor forma de ver na prática é estar lá. Faz sentido confirmar e você vai embora sabendo que funciona?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJ 9 -->
+  <div class="obj-card" id="c9">
+    <div class="obj-header" onclick="toggleObj('c9')">
+      <div class="obj-title-wrap">
+        <span class="obj-pill baixa">#9 Baixa — ~2 calls</span>
+        <span class="obj-title">"Não posso ir presencialmente a Floripa."</span>
+      </div>
+      <span class="obj-chevron">›</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-step step-diag">
+        <div class="obj-step-label"><span class="step-num">1</span> Diagnóstico</div>
+        <div class="quote">"O que especificamente impede você? É a agenda, o deslocamento, ou uma situação pontual?"</div>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:8px">A Imersão é presencial por design. Não prometa flexibilidade que não existe. Se o impedimento for real, o lead não é para essa turma.</p>
+      </div>
+      <div class="obj-step step-resp">
+        <div class="obj-step-label"><span class="step-num">2</span> Resposta</div>
+        <div class="quote green">"A Imersão é 100% presencial porque o que você implementa lá exige imersão real — sem distrações, ao lado das pessoas certas. Não existe essa transformação online."</div>
+        <div class="quote green">"Se for uma questão de logística, a gente pode olhar os detalhes. Mas se você tiver que perder 2 dias de trabalho para ganhar 12 meses de resultado, faz sentido?"</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 4 — ERROS FATAIS
+══════════════════════════════════════════ -->
+<div id="erros" class="panel">
+
+  <h1>Erros Fatais do Closer</h1>
+  <p class="lead">Padrões identificados nas calls que não fecharam. Cada erro aqui custou R$100k.</p>
+
+  <div class="erro-card">
+    <div class="erro-num">Erro 1</div>
+    <div class="erro-title">Falar antes de ouvir</div>
+    <div class="erro-why">Entrar direto na apresentação do produto sem fazer diagnóstico. O cliente não compra features — compra solução para uma dor específica. Se você não sabe qual é a dor dele, está chutando.</div>
+    <div class="erro-fix"><div class="erro-fix-label">Correto</div>Mínimo 10 minutos de diagnóstico antes de falar qualquer coisa sobre o produto. Anote o que ele fala. Use as palavras DELE no fechamento.</div>
+  </div>
+
+  <div class="erro-card">
+    <div class="erro-num">Erro 2</div>
+    <div class="erro-title">Aceitar "vou pensar" sem data e hora</div>
+    <div class="erro-why">Das 47 calls analisadas, praticamente nenhum lead que disse "vou pensar" voltou por conta própria. "Vou pensar" é "não" com gentileza. Sem um próximo passo agendado, é venda perdida.</div>
+    <div class="erro-fix"><div class="erro-fix-label">Correto</div>"Claro. O que você vai pensar especificamente? Às vezes vale resolver agora enquanto a gente está juntos." — Se insistir em pensar: "Quando você vai ter a resposta? Quinta à tarde funciona para você? Posso marcar?"</div>
+  </div>
+
+  <div class="erro-card">
+    <div class="erro-num">Erro 3</div>
+    <div class="erro-title">Desligar antes de enviar contrato + link de pagamento</div>
+    <div class="erro-why">Duas vendas quase-fechadas (Michael e Willian) travaram porque o pagamento ficou para depois. Quando esfria, 9 em 10 não voltam. O contrato e o link de pagamento precisam ser enviados DURANTE A CALL, antes de desligar.</div>
+    <div class="erro-fix"><div class="erro-fix-label">Correto</div>Após o "sim": "Ótimo! Vou te mandar agora o link de pagamento e o contrato. Você já deve estar recebendo... confirmou?" Só desligue depois de receber confirmação de ambos.</div>
+  </div>
+
+  <div class="erro-card">
+    <div class="erro-num">Erro 4</div>
+    <div class="erro-title">Fazer dump de features</div>
+    <div class="erro-why">Listar tudo que está incluído no produto (módulos, agentes, bônus) sem conectar com a dor do cliente faz o produto parecer mais barato, não mais valioso. Mais features = mais confusão = menos decisão.</div>
+    <div class="erro-fix"><div class="erro-fix-label">Correto</div>Apresente apenas o que resolve o problema que ELE verbalizou. "Você me falou que o seu gargalo é [X]. Isso é exatamente o que o bloco Y da Imersão resolve." Menos features, mais relevância.</div>
+  </div>
+
+  <div class="erro-card">
+    <div class="erro-num">Erro 5</div>
+    <div class="erro-title">Falar o preço sem construir valor antes</div>
+    <div class="erro-why">Quando o preço chega antes do valor percebido estar estabelecido, R$100k parece caro. Quando chega depois de você mostrar que o payback é em 7 dias, R$100k parece barato. A sequência importa.</div>
+    <div class="erro-fix"><div class="erro-fix-label">Correto</div>Construa o ROI antes do preço. "10 profissionais de tecnologia = R$109k/mês. Em menos de 7 dias úteis você recuperou. O investimento total é R$100k." — O preço vem como conclusão lógica, não como surpresa.</div>
+  </div>
+
+  <div class="erro-card">
+    <div class="erro-num">Erro 6</div>
+    <div class="erro-title">Não identificar quem tem autoridade para decidir</div>
+    <div class="erro-why">A objeção mais comum (14 calls) foi consultar sócio/parceiro. Muitas dessas poderiam ter sido evitadas se o closer tivesse identificado na ABERTURA que havia outro decisor — e tentado incluí-lo na call ou agendar com os dois presentes.</div>
+    <div class="erro-fix"><div class="erro-fix-label">Correto</div>Na abertura: "Você tem sócios? Essa decisão passa por alguém mais?" — Se sim: "Faz sentido incluir ele nessa conversa hoje? Assim a gente não volta duas vezes no mesmo assunto."</div>
+  </div>
+
+  <div class="erro-card">
+    <div class="erro-num">Erro 7</div>
+    <div class="erro-title">Perguntar "O que você achou?" depois da apresentação</div>
+    <div class="erro-why">Essa pergunta abre a porta para hesitação, objeções não estruturadas e perda de controle da call. O closer que pergunta "o que você achou" está pedindo permissão para fechar — o que mostra insegurança e enfraquece a posição.</div>
+    <div class="erro-fix"><div class="erro-fix-label">Correto</div>Após a apresentação, vá direto para o fechamento assumptivo: "Faz sentido para você? Então de qual forma você prefere: PIX ou cartão?" — Se surgir objeção, você a trata. Mas nunca abra o espaço primeiro.</div>
+  </div>
+
+  <div class="erro-card">
+    <div class="erro-num">Erro 8</div>
+    <div class="erro-title">Deixar a objeção do sócio virar desculpa sem plano</div>
+    <div class="erro-why">Em muitas calls, "vou falar com meu sócio" virou o fim da conversa. O closer aceitou sem definir quando, sem oferecer material de apoio, sem agendar retorno — e o follow-up nunca aconteceu.</div>
+    <div class="erro-fix"><div class="erro-fix-label">Correto</div>"Perfeito. Quando você fala com ele — hoje à noite ou amanhã cedo? Vou te mandar o resumo para você apresentar. E se ele quiser 15 minutos com a gente, a agenda está disponível." — Sempre termine com data, hora e próximo passo.</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Playbook do Closer — Imersão AIOS · Baseado em 47 calls reais · Fev/2026 · BILHON · Confidencial
+</div>
+
+<button class="pdf-btn" onclick="window.print()">⬇ Salvar como PDF</button>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function toggleObj(id) {
+  const card = document.getElementById(id);
+  const body = card.querySelector('.obj-body');
+  const isOpen = body.classList.contains('open');
+  // close all
+  document.querySelectorAll('.obj-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.obj-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) {
+    body.classList.add('open');
+    card.classList.add('open');
+  }
+}
+</script>
+</body>
+</html>
