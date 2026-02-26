@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treinamento Comercial — Reoferta CoHort Advanced</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --border: #2a2a3e;
+    --accent: #7c3aed;
+    --accent2: #a855f7;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --orange: #f97316;
+    --blue: #3b82f6;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #12121a 0%, #1e0a3c 50%, #12121a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 24px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(124,58,237,0.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(124,58,237,0.4);
+    color: var(--accent2);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .header h1 span { color: var(--accent2); }
+  .header p {
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .header-meta {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .header-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .header-meta span b { color: var(--text); }
+
+  /* NAV TABS */
+  .tab-nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    padding: 0 16px;
+    gap: 2px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    padding: 14px 18px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all .2s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent2);
+    border-bottom-color: var(--accent2);
+  }
+
+  /* CONTENT */
+  .tab-content { display: none; padding: 28px 20px; max-width: 860px; margin: 0 auto; }
+  .tab-content.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card p { color: var(--muted); font-size: 14px; }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  @media(max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* METRIC CARDS */
+  .metric {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .metric .val {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--white);
+    display: block;
+  }
+  .metric .label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .metric.green { border-color: rgba(16,185,129,0.3); }
+  .metric.green .val { color: var(--green); }
+  .metric.gold { border-color: rgba(245,158,11,0.3); }
+  .metric.gold .val { color: var(--gold); }
+  .metric.purple { border-color: rgba(124,58,237,0.3); }
+  .metric.purple .val { color: var(--accent2); }
+  .metric.orange { border-color: rgba(249,115,22,0.3); }
+  .metric.orange .val { color: var(--orange); }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent2);
+    margin-bottom: 12px;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title:first-child { margin-top: 0; }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* SCRIPT BLOCKS */
+  .script-block {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    font-family: inherit;
+  }
+  .script-block .label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+  .script-block p, .script-block li {
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .script-block.gold { border-left-color: var(--gold); }
+  .script-block.gold .label { color: var(--gold); }
+  .script-block.green { border-left-color: var(--green); }
+  .script-block.green .label { color: var(--green); }
+  .script-block.orange { border-left-color: var(--orange); }
+  .script-block.orange .label { color: var(--orange); }
+  .script-block.red { border-left-color: var(--red); }
+  .script-block.red .label { color: var(--red); }
+
+  /* ALERT */
+  .alert {
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .alert.warn { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); color: #fcd34d; }
+  .alert.info { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); color: #93c5fd; }
+  .alert.success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; }
+  .alert.danger { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+
+  /* STEPS */
+  .steps { counter-reset: step; }
+  .step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .step-num {
+    min-width: 32px;
+    height: 32px;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(124,58,237,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    flex-shrink: 0;
+  }
+  .step-content { flex: 1; }
+  .step-content h4 { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: var(--muted); }
+
+  /* OBJEÇÃO CARDS */
+  .objection {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .objection-header {
+    padding: 14px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .objection-header:hover { background: rgba(255,255,255,0.03); }
+  .objection-header .left { display: flex; align-items: center; gap: 10px; }
+  .objection-tag {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .objection-tag.alta { background: rgba(239,68,68,0.2); color: #f87171; }
+  .objection-tag.media { background: rgba(249,115,22,0.2); color: #fb923c; }
+  .objection-tag.baixa { background: rgba(234,179,8,0.2); color: #fbbf24; }
+  .objection-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .objection-arrow { color: var(--muted); font-size: 18px; transition: transform .2s; }
+  .objection.open .objection-arrow { transform: rotate(180deg); }
+  .objection-body { display: none; padding: 0 16px 16px; }
+  .objection.open .objection-body { display: block; }
+  .objection-body .diag {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #93c5fd;
+  }
+  .objection-body .resp {
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .resp-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+  .quote-box {
+    background: rgba(245,158,11,0.08);
+    border-left: 3px solid var(--gold);
+    padding: 10px 12px;
+    margin-top: 8px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: #fcd34d;
+    font-style: italic;
+  }
+
+  /* PROFILE CARDS */
+  .profile {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .profile-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .profile-icon {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .profile-title { font-size: 15px; font-weight: 700; color: var(--white); }
+  .profile-sub { font-size: 12px; color: var(--muted); }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .tag.red { background: rgba(239,68,68,0.15); color: #f87171; }
+  .tag.green { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+  .tag.blue { background: rgba(59,130,246,0.15); color: #93c5fd; }
+  .tag.gold { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .tag.purple { background: rgba(124,58,237,0.15); color: var(--accent2); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  /* FLOW DIAGRAM */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .flow-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    position: relative;
+  }
+  .flow-item.sdr { border-left: 3px solid var(--blue); }
+  .flow-item.closer { border-left: 3px solid var(--accent); }
+  .flow-item.result { border-left: 3px solid var(--green); }
+  .flow-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .flow-role {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .flow-item.sdr .flow-role { color: var(--blue); }
+  .flow-item.closer .flow-role { color: var(--accent2); }
+  .flow-item.result .flow-role { color: var(--green); }
+  .flow-item h4 { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .flow-item p { font-size: 13px; color: var(--muted); }
+  .flow-arrow {
+    text-align: center;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 20px;
+  }
+
+  /* PRINT BUTTON */
+  .print-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+    z-index: 999;
+  }
+  .print-btn:hover { background: var(--accent2); }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--text);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .checklist li::before {
+    content: '✓';
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .checklist li.no::before { content: '✕'; color: var(--red); }
+
+  /* ROI TABLE */
+  .roi-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .roi-row:last-child { border-bottom: none; }
+  .roi-row .roi-label { color: var(--muted); }
+  .roi-row .roi-val { font-weight: 700; color: var(--white); }
+  .roi-row .roi-val.green { color: var(--green); }
+  .roi-row .roi-val.gold { color: var(--gold); }
+
+  ul.bullet { padding-left: 18px; }
+  ul.bullet li { font-size: 14px; color: var(--muted); margin-bottom: 4px; }
+  ul.bullet li b { color: var(--text); }
+
+  @media print {
+    .tab-nav, .print-btn { display: none !important; }
+    .tab-content { display: block !important; page-break-before: always; }
+    .tab-content:first-of-type { page-break-before: avoid; }
+    body { background: white; color: #111; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">Treinamento Comercial Interno</div>
+  <h1>Reoferta <span>CoHort Advanced</span></h1>
+  <p>Para leads que não fecharam a Imersão AIOX — Scripts prontos, objeções mapeadas e fluxo operacional</p>
+  <div class="header-meta">
+    <span>📅 <b>Ação imediata</b></span>
+    <span>💰 <b>R$ 24.888</b></span>
+    <span>🎯 <b>SDR + Closer</b></span>
+    <span>🔥 <b>Baseado em 47 calls reais</b></span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('contexto', this)">📌 Contexto</button>
+  <button class="tab-btn" onclick="showTab('produto', this)">🚀 O Produto</button>
+  <button class="tab-btn" onclick="showTab('perfis', this)">👥 Perfis de Lead</button>
+  <button class="tab-btn" onclick="showTab('fluxo', this)">⚡ Fluxo Operacional</button>
+  <button class="tab-btn" onclick="showTab('sdr', this)">📱 SDR: Scripts</button>
+  <button class="tab-btn" onclick="showTab('closer', this)">🎯 Closer: Call</button>
+  <button class="tab-btn" onclick="showTab('objecoes', this)">🛡 Objeções</button>
+  <button class="tab-btn" onclick="showTab('erros', this)">🚫 Erros Fatais</button>
+</div>
+
+<!-- ======================== CONTEXTO ======================== -->
+<div id="contexto" class="tab-content active">
+  <div class="section-title">O que está acontecendo</div>
+
+  <div class="alert info">
+    <span>ℹ️</span>
+    <span>A Imersão AIOX encerrou com <b>9 fechamentos = R$ 900k</b>. Agora ativamos a base de quem ficou pra trás e fazemos uma segunda oferta com produto acessível e valor enorme.</span>
+  </div>
+
+  <div class="grid-3">
+    <div class="metric gold">
+      <span class="val">R$ 24.888</span>
+      <div class="label">Ticket do CoHort Advanced</div>
+    </div>
+    <div class="metric purple">
+      <span class="val">83% OFF</span>
+      <div class="label">vs. valor real R$ 142.600</div>
+    </div>
+    <div class="metric green">
+      <span class="val">50 vagas</span>
+      <div class="label">Início 08/04/2026</div>
+    </div>
+  </div>
+
+  <div class="section-title">Quem são esses leads</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🔴 Não fecharam a Imersão</h3>
+      <p>Leads que fizeram a call mas disseram não — por dinheiro, sócio, timing. <b>Já estão quentes.</b> O CoHort é a alternativa perfeita.</p>
+    </div>
+    <div class="card">
+      <h3>🟠 Deram no show</h3>
+      <p>Marcaram call mas não apareceram. Algum interesse existia. Abordagem = resgatar com nova proposta e nova data.</p>
+    </div>
+    <div class="card">
+      <h3>🟡 Quentes/Fervendo sem call</h3>
+      <p>Atenderam o SDR, mostraram interesse mas não quiseram marcar call para imersão. <b>Sem a barreira dos R$100k, podem fechar direto.</b></p>
+    </div>
+    <div class="card">
+      <h3>🔵 Não atenderam</h3>
+      <p>Temperatura quente ou fervendo na planilha. Nova abordagem com novo produto, nova mensagem, nova janela.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Por que agora funciona</div>
+  <div class="card">
+    <ul class="bullet">
+      <li><b>A barreira caiu:</b> De R$ 100k para R$ 24.888 — 75% mais acessível para quem hesitou no preço</li>
+      <li><b>Entregamos prova:</b> A Imersão aconteceu. Eles sabem que somos reais. A credibilidade aumentou</li>
+      <li><b>Urgência genuína:</b> 50 vagas, início 08/04. Não é pressão falsa — é logística real</li>
+      <li><b>Produto complementar:</b> Para quem foi à imersão e ainda não comprou, o CoHort é a próxima etapa natural</li>
+      <li><b>Aquecimento existente:</b> Já tivemos contato prévio — não é abordagem fria</li>
+    </ul>
+  </div>
+
+  <div class="alert warn">
+    <span>⚠️</span>
+    <span><b>Prioridade de contato:</b> Fervendo e Quente primeiro → No Show → Não fecharam → Não atenderam. Não gaste tempo em leads Frios ou Gelados — dados reais mostram <b>0 vendas</b> nesses segmentos.</span>
+  </div>
+</div>
+
+<!-- ======================== PRODUTO ======================== -->
+<div id="produto" class="tab-content">
+  <div class="section-title">Entenda o que você está vendendo</div>
+
+  <div class="alert success">
+    <span>🎯</span>
+    <span><b>Pitch de 30 segundos:</b> "É um programa de 8 semanas onde você sai com uma equipe completa de IA — mais de 80 agentes configurados e rodando — e um projeto real em produção. Custa R$ 24.888, mas substitui R$ 109k por mês em salários. Payback em menos de 7 dias."</span>
+  </div>
+
+  <div class="section-title">Os números que vendem</div>
+  <div class="card" style="padding: 0; overflow: hidden;">
+    <div class="roi-row">
+      <span class="roi-label">Investimento</span>
+      <span class="roi-val gold">R$ 24.888</span>
+    </div>
+    <div class="roi-row">
+      <span class="roi-label">Economia mensal gerada</span>
+      <span class="roi-val green">R$ 109.164</span>
+    </div>
+    <div class="roi-row">
+      <span class="roi-label">Payback</span>
+      <span class="roi-val green">&lt; 7 dias úteis</span>
+    </div>
+    <div class="roi-row">
+      <span class="roi-label">ROI primeiro mês</span>
+      <span class="roi-val green">338%</span>
+    </div>
+    <div class="roi-row">
+      <span class="roi-label">ROI primeiro ano</span>
+      <span class="roi-val gold">5.162%</span>
+    </div>
+    <div class="roi-row">
+      <span class="roi-label">Valor real do stack incluído</span>
+      <span class="roi-val">R$ 142.600</span>
+    </div>
+    <div class="roi-row">
+      <span class="roi-label">Desconto</span>
+      <span class="roi-val green">83% OFF</span>
+    </div>
+  </div>
+
+  <div class="section-title">O que está incluso (argumento de valor)</div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>🤖 80+ Agentes de IA</h3>
+      <p>Dev Full Stack, DevOps, Arquiteto, QA, PM, Copy (25 especialistas), Data, Design, Hormozi Squad (16 variações) e mais 20+ agentes adicionais.</p>
+    </div>
+    <div class="card">
+      <h3>🏗️ Projeto em produção</h3>
+      <p>Em 8 semanas o aluno sai com projeto real funcionando com domínio próprio — não é sandbox, não é teoria.</p>
+    </div>
+    <div class="card">
+      <h3>🎓 Suporte 12 meses</h3>
+      <p>Check-ins de squad, office hours mensais por <b>12 meses</b> após o CoHort. Não é só grupo de WhatsApp.</p>
+    </div>
+    <div class="card">
+      <h3>🛡️ Garantia 14 dias</h3>
+      <p>Participou dos 2 primeiros encontros e não está satisfeito? <b>100% de reembolso.</b> Sem questionamentos.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Qual é o perfil ideal (para qualificação rápida)</div>
+  <div class="card">
+    <ul class="checklist">
+      <li>Tem Claude Pro ou Max ativo (ou disposto a ativar)</li>
+      <li>Tem projeto definido — mesmo que em estágio inicial</li>
+      <li>Vocabulário básico: Git, API, Deploy</li>
+      <li>Quer escalar sem contratar mais pessoas</li>
+      <li>Disponibilidade para 8 semanas dedicadas</li>
+      <li class="no">Iniciante total — nunca abriu um terminal</li>
+      <li class="no">Quer só teoria / conteúdo passivo</li>
+      <li class="no">Não tem projeto ou ideia de aplicação</li>
+    </ul>
+  </div>
+
+  <div class="alert info">
+    <span>💡</span>
+    <span><b>Atenção SDR:</b> Se o lead não se encaixa no perfil ideal, não force. Um lead fora do perfil que entra vai pedir reembolso e virar custo. Qualidade > Quantidade aqui.</span>
+  </div>
+</div>
+
+<!-- ======================== PERFIS ======================== -->
+<div id="perfis" class="tab-content">
+  <div class="section-title">Perfis identificados nas 47 calls</div>
+
+  <div class="profile">
+    <div class="profile-header">
+      <div class="profile-icon" style="background: rgba(239,68,68,0.15);">🔥</div>
+      <div>
+        <div class="profile-title">O Bloqueado Financeiro</div>
+        <div class="profile-sub">Quer muito, dinheiro é o obstáculo real</div>
+      </div>
+    </div>
+    <p style="font-size: 14px; color: var(--muted); margin-bottom: 10px;">Ficou convencido na call da imersão mas não tinha R$ 100k disponível. Agora com R$ 24.888 a conversa é diferente. <b>Lead mais quente da base.</b></p>
+    <div class="tag-list">
+      <span class="tag red">Alta probabilidade</span>
+      <span class="tag green">SDR pode fechar direto</span>
+      <span class="tag gold">Mencionar parcelamento 12x R$ 2.488</span>
+    </div>
+    <div class="quote-box">Quote real: "Não tenho esse dinheiro agora" → Mas R$ 2.488 por mês ele tem.</div>
+  </div>
+
+  <div class="profile">
+    <div class="profile-header">
+      <div class="profile-icon" style="background: rgba(249,115,22,0.15);">🤝</div>
+      <div>
+        <div class="profile-title">O Dependente de Sócio</div>
+        <div class="profile-sub">Convencido individualmente, travou na aprovação do sócio</div>
+      </div>
+    </div>
+    <p style="font-size: 14px; color: var(--muted); margin-bottom: 10px;">Na call da imersão disse que precisava falar com o sócio/parceiro e sumiu. Com R$ 24.888 a decisão é menos intimidadora e pode ser tomada unilateralmente.</p>
+    <div class="tag-list">
+      <span class="tag orange">Média probabilidade</span>
+      <span class="tag blue">Agendar call com os dois</span>
+      <span class="tag purple">Pressionar por decisão individual</span>
+    </div>
+    <div class="quote-box">Quote real: "Vou tentar sensibilizar meu sócio para rateiar" → Perfeito para o CoHort.</div>
+  </div>
+
+  <div class="profile">
+    <div class="profile-header">
+      <div class="profile-icon" style="background: rgba(59,130,246,0.15);">⏰</div>
+      <div>
+        <div class="profile-title">O do Timing Errado</div>
+        <div class="profile-sub">Usou "timing" como desculpa para não fechar</div>
+      </div>
+    </div>
+    <p style="font-size: 14px; color: var(--muted); margin-bottom: 10px;">Disse que "não era o momento" para a imersão. Na prática, a urgência não bateu. Com prazo real de 08/04 para o CoHort, reabrir esse gatilho.</p>
+    <div class="tag-list">
+      <span class="tag blue">Média probabilidade</span>
+      <span class="tag red">Usar urgência real (50 vagas)</span>
+    </div>
+    <div class="quote-box">Quote real: "Não é o dinheiro — é o timing" → O timing perfeito nunca chega. Quem cresce, implementa no caos.</div>
+  </div>
+
+  <div class="profile">
+    <div class="profile-header">
+      <div class="profile-icon" style="background: rgba(234,179,8,0.15);">😰</div>
+      <div>
+        <div class="profile-title">O Inseguro Técnico</div>
+        <div class="profile-sub">Quer mas tem medo de não conseguir implementar</div>
+      </div>
+    </div>
+    <p style="font-size: 14px; color: var(--muted); margin-bottom: 10px;">Setores tradicionais: mineração, advocacia, indústria. Tem o dinheiro e a vontade mas medo de não estar "preparado para IA".</p>
+    <div class="tag-list">
+      <span class="tag gold">Média probabilidade</span>
+      <span class="tag green">Enfatizar suporte 12 meses + garantia 14 dias</span>
+    </div>
+    <div class="quote-box">Quote real: "Preciso amadurecer primeiro" / "Não posso ir cru" → A imersão matura. O CoHort implementa. É a sequência natural.</div>
+  </div>
+
+  <div class="profile">
+    <div class="profile-header">
+      <div class="profile-icon" style="background: rgba(16,185,129,0.15);">🎯</div>
+      <div>
+        <div class="profile-title">O No-Show</div>
+        <div class="profile-sub">Marcou call mas não apareceu</div>
+      </div>
+    </div>
+    <p style="font-size: 14px; color: var(--muted); margin-bottom: 10px;">19,6% das calls foram no show. Muitos simplesmente travaram no R$ 100k. Nova proposta, novo argumento de entrada, nova oportunidade.</p>
+    <div class="tag-list">
+      <span class="tag blue">Probabilidade variável</span>
+      <span class="tag orange">Abordagem: Nova oferta, não cobrança</span>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== FLUXO ======================== -->
+<div id="fluxo" class="tab-content">
+  <div class="section-title">Fluxo operacional da ação</div>
+
+  <div class="flow">
+    <div class="flow-item sdr">
+      <div class="flow-icon">📱</div>
+      <div>
+        <div class="flow-role">SDR — Etapa 1</div>
+        <h4>WhatsApp (primeiro contato)</h4>
+        <p>Mensagem personalizada por perfil do lead. Objetivo: gerar resposta e qualificar interesse inicial. Não vender na mensagem — abrir conversa.</p>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-item sdr">
+      <div class="flow-icon">📞</div>
+      <div>
+        <div class="flow-role">SDR — Etapa 2</div>
+        <h4>Ligação de qualificação</h4>
+        <p>Se respondeu ao WhatsApp ou não respondeu mas está quente/fervendo. Objetivo: qualificar perfil técnico + decisão + fechar ou agendar call com closer.</p>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-item sdr" style="border-left-color: var(--green);">
+      <div class="flow-icon">💰</div>
+      <div>
+        <div class="flow-role" style="color: var(--green);">SDR — Fechamento direto (quando claro)</div>
+        <h4>SDR fecha se: lead já está convicto, tem perfil e só falta o link</h4>
+        <p>⚠️ Só fechar direto se tiver certeza absoluta do interesse. Dúvida? Agenda call com o closer. Não arrisque uma venda por pressa.</p>
+      </div>
+    </div>
+    <div class="flow-arrow">↓ (se não fechou)</div>
+    <div class="flow-item closer">
+      <div class="flow-icon">🎯</div>
+      <div>
+        <div class="flow-role">Closer</div>
+        <h4>Call de fechamento (30-40 min)</h4>
+        <p>Diagnóstico rápido → apresentação personalizada → tratamento de objeções → fechamento. Não desliga sem o link de pagamento enviado.</p>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-item result">
+      <div class="flow-icon">✅</div>
+      <div>
+        <div class="flow-role">Resultado</div>
+        <h4>Pagamento + acesso confirmado</h4>
+        <p>Link de pagamento enviado durante a call. Matrícula confirmada somente com pagamento processado.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Regras de ouro do fluxo</div>
+  <div class="card">
+    <ul class="bullet">
+      <li><b>SDR não empurra venda incerta para o closer:</b> Qualifica primeiro. O closer só pega lead que tem real potencial de fechar.</li>
+      <li><b>SDR fecha somente quando óbvio:</b> Lead disse "quero comprar, como faço?" — então fecha. Qualquer hesitação = agendamento com closer.</li>
+      <li><b>Closer não desliga sem link enviado:</b> Mesmo que o lead diga "vou pagar depois" — envia o link durante a call e confirma que chegou.</li>
+      <li><b>Máximo 3 tentativas por lead:</b> WhatsApp → Ligação → Ligação final. Se não respondeu, passa para próximo.</li>
+      <li><b>SDR preenche planilha em tempo real:</b> Status, temperatura, tentativas — sem isso o funil cega.</li>
+    </ul>
+  </div>
+
+  <div class="section-title">Critério para o SDR fechar direto</div>
+  <div class="alert success">
+    <span>✅</span>
+    <span>Feche direto <b>somente se os 3 critérios estiverem presentes:</b> (1) Lead disse explicitamente que quer comprar, (2) Tem o perfil técnico mínimo, (3) Não tem sócio ou aprovação pendente.</span>
+  </div>
+  <div class="alert danger">
+    <span>🚫</span>
+    <span>Não feche direto se o lead tiver hesitação, precisar consultar alguém ou tiver dúvidas sobre o produto. Uma venda mal qualificada = reembolso + trabalho dobrado.</span>
+  </div>
+</div>
+
+<!-- ======================== SDR SCRIPTS ======================== -->
+<div id="sdr" class="tab-content">
+  <div class="section-title">Script WhatsApp — Primeiro contato</div>
+
+  <div class="alert info">
+    <span>💡</span>
+    <span>Personalize pela situação do lead na planilha. Abaixo temos variações para cada perfil. <b>Nunca mande o mesmo texto para todos.</b></span>
+  </div>
+
+  <div class="script-block">
+    <div class="label">🔴 Para quem não fechou a imersão (tinha interesse mas disse não)</div>
+    <p>
+      Oi [NOME]! Tudo bem? Aqui é [SEU NOME] da equipe AIOX. 👋<br><br>
+      Lembro que você tinha interesse na Imersão e não rolou por conta do investimento naquele momento.<br><br>
+      Queríamos te apresentar uma coisa diferente — o <b>CoHort Advanced</b>, um programa de 8 semanas onde você sai com uma equipe de IA funcionando de verdade no seu negócio.<br><br>
+      O investimento é bem diferente: <b>R$ 24.888 ou 12x R$ 2.488.</b><br><br>
+      Faz sentido eu te explicar em 10 minutinhos? Posso te ligar agora ou amanhã?
+    </p>
+  </div>
+
+  <div class="script-block gold">
+    <div class="label">🟠 Para no-show (marcou call e não apareceu)</div>
+    <p>
+      Oi [NOME]! Aqui é [SEU NOME] da AIOX.<br><br>
+      A gente tinha uma call agendada lá atrás sobre a Imersão — sei que a agenda às vezes prega peças na gente 😄<br><br>
+      Tenho uma novidade que pode fazer mais sentido para você agora: o <b>CoHort Advanced</b>, 8 semanas, com resultado prático garantido.<br><br>
+      Investimento: <b>R$ 24.888</b>. Início <b>08 de abril.</b><br><br>
+      Posso te ligar em 5 minutos para explicar?
+    </p>
+  </div>
+
+  <div class="script-block green">
+    <div class="label">🟡 Para quente/fervendo que não quis fazer call da imersão</div>
+    <p>
+      Oi [NOME]! Aqui é [SEU NOME] da equipe AIOX.<br><br>
+      Vi que você demonstrou interesse no nosso conteúdo mas aquele produto de R$ 100k talvez não tenha feito sentido no momento — totalmente ok.<br><br>
+      Quero te apresentar algo diferente e mais acessível: o <b>CoHort Advanced</b>. Programa de 8 semanas, 80+ agentes de IA, projeto em produção ao final.<br><br>
+      <b>R$ 24.888 ou 12x R$ 2.488.</b> Início 08/04. 50 vagas somente.<br><br>
+      Posso te chamar agora?
+    </p>
+  </div>
+
+  <div class="script-block orange">
+    <div class="label">⚡ Follow-up (24h sem resposta ao WhatsApp)</div>
+    <p>
+      [NOME], vi que minha mensagem chegou mas talvez tenha se perdido nas notificações 😄<br><br>
+      Só quero garantir que você saiba: <b>50 vagas</b> para o CoHort, início <b>08/04.</b> Essa semana ainda consigo segurar uma vaga para você.<br><br>
+      Me responde aqui: faz sentido batermos um papo de 10 min?
+    </p>
+  </div>
+
+  <div class="section-title">Script de ligação — Estrutura de 5 minutos</div>
+
+  <div class="script-block">
+    <div class="label">📞 Abertura (30 seg)</div>
+    <p>
+      "[NOME]? Oi, aqui é [SEU NOME] da equipe AIOX. Tudo bem?<br>
+      Te ligo porque você esteve no nosso radar lá na Imersão e quero te apresentar uma oportunidade que acho que faz mais sentido agora. Tem 5 minutinhos?"
+    </p>
+  </div>
+
+  <div class="script-block gold">
+    <div class="label">🎯 Qualificação (1-2 min)</div>
+    <p>
+      — "Você ainda usa IA no negócio ou está em processo de estruturar isso?"<br>
+      — "Tem algum projeto específico que quer implementar?"<br>
+      — "Você toma essa decisão ou precisa envolver alguém?"<br><br>
+      <b style="color: var(--gold);">⚠️ Se não tem projeto ou precisa de aprovação de terceiro → Agenda call com closer, não tente fechar direto.</b>
+    </p>
+  </div>
+
+  <div class="script-block green">
+    <div class="label">💡 Pitch (1 min)</div>
+    <p>
+      "Então o CoHort Advanced é um programa de 8 semanas onde você sai com uma equipe de IA completa — mais de 80 agentes configurados — e um projeto real rodando em produção.<br><br>
+      Economia mensal estimada: R$ 109.000. Payback em menos de 7 dias.<br><br>
+      Investimento: <b>R$ 24.888 à vista</b> ou <b>12x de R$ 2.488.</b> Início 08/04, 50 vagas."
+    </p>
+  </div>
+
+  <div class="script-block">
+    <div class="label">🔀 Decisão (30 seg)</div>
+    <p>
+      <b>Se lead está empolgado e quer comprar:</b><br>
+      "Ótimo! Posso já te mandar o link de matrícula ou prefere uma call de 30 min com o nosso especialista para tirar as dúvidas antes?"<br><br>
+      <b>Se tem dúvidas ou hesitação:</b><br>
+      "Sem problema — posso agendar você com o [CLOSER] para uma call de 30 minutos onde ele vai detalhar tudo e já tira suas dúvidas. Que dia funciona melhor?"
+    </p>
+  </div>
+
+  <div class="section-title">Respostas rápidas no WhatsApp</div>
+
+  <div class="grid-2">
+    <div class="script-block" style="margin-bottom: 0;">
+      <div class="label">Lead: "Quanto custa?"</div>
+      <p>"R$ 24.888 à vista ou 12x R$ 2.488 no cartão. Mas antes de falar de preço, quero entender se faz sentido para o seu momento. Posso te ligar em 5 min?"</p>
+    </div>
+    <div class="script-block" style="margin-bottom: 0;">
+      <div class="label">Lead: "Me manda mais informações"</div>
+      <p>"Claro! Mas antes de mandar um PDF, me conta: você já tem algum projeto de IA em andamento ou ainda está na fase de explorar? Quero mandar o que for mais relevante pra você."</p>
+    </div>
+    <div class="script-block" style="margin-bottom: 0;">
+      <div class="label">Lead: "Não tenho interesse"</div>
+      <p>"Tudo certo [NOME]! Só pra eu entender melhor — o que te afasta? É o timing, o formato ou outra coisa? Me ajuda a melhorar o produto para as próximas turmas 🙂"</p>
+    </div>
+    <div class="script-block" style="margin-bottom: 0;">
+      <div class="label">Lead: "Já fiz o CoHort Turma 1"</div>
+      <p>"Que ótimo! Então você conhece a qualidade. Estou falando do CoHort Turma 2 — com melhorias significativas. Posso te contar o que mudou?"</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== CLOSER SCRIPTS ======================== -->
+<div id="closer" class="tab-content">
+  <div class="section-title">Estrutura da call de fechamento (30-40 min)</div>
+
+  <div class="alert info">
+    <span>ℹ️</span>
+    <span>Esses leads já tiveram contato anterior com AIOX. A credibilidade está estabelecida. <b>Não venda o produto — resolva o problema deles com o produto.</b></span>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Reconexão e contexto (3 min)</h4>
+        <p>Lembre o histórico: "Você esteve no processo da Imersão AIOX. Hoje trouxe uma proposta diferente porque acho que faz mais sentido para onde você está agora." Não pule essa etapa — ela posiciona você como alguém que se lembrou deles, não como quem está prospectando frio.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Diagnóstico rápido (5-7 min)</h4>
+        <p>3 perguntas obrigatórias: (1) "O que mudou no seu negócio nesses últimos meses?" (2) "Você tem algum projeto de IA estruturado ou ainda é exploratório?" (3) "Se você saísse daqui com uma equipe de IA funcionando, qual seria o impacto no seu faturamento?" — Essa última pergunta é a mais importante: ela faz o lead calcular o ROI dele mesmo.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Apresentação personalizada (8-10 min)</h4>
+        <p>Use as respostas do diagnóstico. Não apresente tudo — apresente o que é relevante para o negócio dele. "Você falou que o gargalo é [X]. No CoHort, na semana [Y] a gente resolve exatamente isso com [agente/sistema específico]."</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>ROI ao vivo (3-5 min)</h4>
+        <p>Pega o número deles: "Você me disse que tem [X] pessoas na área. Quanto você paga por mês?" Então: "Se o CoHort substituir metade disso, em quanto tempo paga o investimento de R$ 24.888?" — Deixe ele calcular. Dono de negócio que calcula ROI próprio não volta atrás.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Fechamento direto (5-7 min)</h4>
+        <p>"Faz sentido para você? Qual das formas de pagamento é melhor — à vista R$ 24.888 ou parcelado 12x R$ 2.488?" — Sempre dê as opções de pagamento, não pergunte "vai comprar". Se objeção aparecer, veja o mapa na aba Objeções.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>Link durante a call (obrigatório)</h4>
+        <p>"Ótimo! Vou te mandar o link agora mesmo enquanto a gente ainda está aqui." Envie e confirme que chegou. Não desligues antes de ter a confirmação de que o link foi recebido — pelo menos.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Frases de fechamento testadas</div>
+  <div class="grid-2">
+    <div class="script-block" style="margin-bottom: 0;">
+      <div class="label">Fechamento por alternativa</div>
+      <p>"Prefere começar à vista com 24.888 ou divide em 12x de 2.488?"</p>
+    </div>
+    <div class="script-block" style="margin-bottom: 0;">
+      <div class="label">Fechamento por urgência real</div>
+      <p>"Tenho 50 vagas e início em 08/04. Se você entrar essa semana, garante a sua. A próxima turma a gente não sabe quando abre."</p>
+    </div>
+    <div class="script-block" style="margin-bottom: 0;">
+      <div class="label">Fechamento por ROI</div>
+      <p>"Você calculou que economiza R$ 8k por mês. Em 3 meses você se paga. O que te impede de começar agora?"</p>
+    </div>
+    <div class="script-block" style="margin-bottom: 0;">
+      <div class="label">Fechamento com garantia</div>
+      <p>"14 dias de garantia. Se nos primeiros 2 encontros não sentir valor, devolvo 100% sem nenhuma pergunta. O risco é zero — o arrependimento de não tentar é maior."</p>
+    </div>
+  </div>
+
+  <div class="section-title">Sinais de compra para prestar atenção</div>
+  <div class="card">
+    <ul class="bullet">
+      <li><b>"Como funciona o pagamento?"</b> → Está pronto para fechar. Não continue apresentando — feche.</li>
+      <li><b>"E se eu não conseguir implementar?"</b> → Use a garantia de 14 dias para remover o risco.</li>
+      <li><b>"Quando começa mesmo?"</b> → Urgência ativada. Confirme 08/04 e mencione vagas limitadas.</li>
+      <li><b>"Vocês têm depoimento de quem fez?"</b> → Lead quer prova social. Compartilhe link dos depoimentos da Turma 1.</li>
+      <li><b>Silêncio após o preço</b> → Não fale. Deixe o silêncio trabalhar por você. Quem falar primeiro perde.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ======================== OBJEÇÕES ======================== -->
+<div id="objecoes" class="tab-content">
+  <div class="section-title">Objeções mapeadas — 47 calls reais</div>
+
+  <div class="alert success">
+    <span>✅</span>
+    <span>Todas as objeções abaixo foram identificadas em calls reais da Imersão AIOX. As respostas foram testadas e refinadas com base nos fechamentos. <b>Aprenda, não decore.</b></span>
+  </div>
+
+  <!-- OBJEÇÃO 1 -->
+  <div class="objection open" id="obj1">
+    <div class="objection-header" onclick="toggleObj('obj1')">
+      <div class="left">
+        <span class="objection-tag alta">Alta</span>
+        <span class="objection-title">"Preciso consultar meu sócio/parceiro"</span>
+      </div>
+      <span class="objection-arrow">▼</span>
+    </div>
+    <div class="objection-body">
+      <div class="diag">🔍 <b>Diagnóstico:</b> Falta de ownership emocional ou medo de decidir sozinho. Não é uma objeção real — é uma barreira de autoridade. Risco de perda: 85% se deixar ir "consultar".</div>
+      <div class="resp">
+        <div class="resp-label">Resposta imediata</div>
+        "Faz sentido envolver ele. Que tal a gente fazer uma call rápida de 20 min com os dois juntos? Posso apresentar diretamente a ele e vocês decidem juntos. Quando seria melhor — amanhã ou depois?"
+      </div>
+      <div class="resp">
+        <div class="resp-label">Se insistir em "falar depois"</div>
+        "Entendo. Mas me ajuda: o que você precisaria ouvir do seu sócio para dizer sim? Me deixa preparar esse argumento junto com você."
+      </div>
+      <div class="resp">
+        <div class="resp-label">Para Cohort (ticket menor)</div>
+        "Olha, para R$ 24.888 eu imagino que você já toma essa decisão. Mas se quiser incluí-lo, tenho um horário amanhã às 10h. Agenda?"
+      </div>
+      <div class="quote-box">💬 Real: "Vou tentar sensibilizar meu sócio para rateiar" — Arcson</div>
+    </div>
+  </div>
+
+  <!-- OBJEÇÃO 2 -->
+  <div class="objection" id="obj2">
+    <div class="objection-header" onclick="toggleObj('obj2')">
+      <div class="left">
+        <span class="objection-tag alta">Alta</span>
+        <span class="objection-title">"Não tenho esse dinheiro agora"</span>
+      </div>
+      <span class="objection-arrow">▼</span>
+    </div>
+    <div class="objection-body">
+      <div class="diag">🔍 <b>Diagnóstico:</b> Caixa comprometido ou o investimento não é prioridade. Para o CoHort (R$ 24.888), use o parcelamento. Compare com o custo do problema.</div>
+      <div class="resp">
+        <div class="resp-label">Calculadora de custo de não fazer</div>
+        "Quanto você paga por mês em profissionais que poderiam ser substituídos por IA? Se for R$ 8k+, em 3 meses você se paga. No parcelado: R$ 2.488 por mês — provavelmente menos do que um júnior."
+      </div>
+      <div class="resp">
+        <div class="resp-label">Parcelamento como âncora</div>
+        "Entendo. Temos 12x de R$ 2.488. Isso entra no cartão ou no boleto mensal. Quer que eu te mostre como funciona?"
+      </div>
+      <div class="resp">
+        <div class="resp-label">Reframing de prioridade</div>
+        "Quando você diz que não tem o dinheiro — é que o caixa está comprometido ou que tem dinheiro mas prefere alocar em outro lugar? Porque as soluções são diferentes."
+      </div>
+      <div class="quote-box">💬 Real: "Tenho contratos 'open lojas' que comprometem" — André (Veículos)</div>
+    </div>
+  </div>
+
+  <!-- OBJEÇÃO 3 -->
+  <div class="objection" id="obj3">
+    <div class="objection-header" onclick="toggleObj('obj3')">
+      <div class="left">
+        <span class="objection-tag alta">Alta</span>
+        <span class="objection-title">"Não é o dinheiro — é o timing"</span>
+      </div>
+      <span class="objection-arrow">▼</span>
+    </div>
+    <div class="objection-body">
+      <div class="diag">🔍 <b>Diagnóstico:</b> Procrastinação disfarçada de estratégia. "Próxima turma" é a válvula de escape. Sem prazo real, não fecha nunca.</div>
+      <div class="resp">
+        <div class="resp-label">Quebrar a ilusão do timing perfeito</div>
+        "O timing perfeito para implementar IA nunca vai chegar. Quem cresce faz no caos — usa as 8 semanas do CoHort enquanto o negócio roda."
+      </div>
+      <div class="resp">
+        <div class="resp-label">Usar urgência real</div>
+        "Próxima turma não tem data. Essa turma tem: início 08/04, 50 vagas. Quando você planeja fazer isso? Se não tem data, não vai acontecer."
+      </div>
+      <div class="resp">
+        <div class="resp-label">Custo da espera</div>
+        "Cada mês sem IA é quanto você está deixando de economizar? Se a economia é R$ 5k/mês, esperar 3 meses custou R$ 15k. Mais que o CoHort."
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJEÇÃO 4 -->
+  <div class="objection" id="obj4">
+    <div class="objection-header" onclick="toggleObj('obj4')">
+      <div class="left">
+        <span class="objection-tag media">Média</span>
+        <span class="objection-title">"Tenho medo de não estar preparado tecnicamente"</span>
+      </div>
+      <span class="objection-arrow">▼</span>
+    </div>
+    <div class="objection-body">
+      <div class="diag">🔍 <b>Diagnóstico:</b> Insegurança técnica — medo de fracasso na implementação. Comum em setores tradicionais (mineração, advocacia, indústria). Não é falta de vontade — é falta de confiança.</div>
+      <div class="resp">
+        <div class="resp-label">Remover o risco com garantia</div>
+        "14 dias de garantia condicional: você participa dos 2 primeiros encontros, faz as entregas básicas, e se não estiver funcionando — devolvo 100%. Sem risco para você testar."
+      </div>
+      <div class="resp">
+        <div class="resp-label">Reframing: é sobre aprender fazendo</div>
+        "O CoHort não exige que você saiba IA. Você vai aprender implementando com suporte 24h. É diferente de um curso gravado que você assiste sozinho."
+      </div>
+      <div class="resp">
+        <div class="resp-label">Suporte como diferencial</div>
+        "12 meses de suporte depois do programa. Se travar em qualquer ponto, tem um time para destravar. Isso é o que diferencia quem implementa de quem assiste e não faz nada."
+      </div>
+      <div class="quote-box">💬 Real: "Não posso ir cru na imersão. Engasga." — Miguel (Advocacia)</div>
+    </div>
+  </div>
+
+  <!-- OBJEÇÃO 5 -->
+  <div class="objection" id="obj5">
+    <div class="objection-header" onclick="toggleObj('obj5')">
+      <div class="left">
+        <span class="objection-tag media">Média</span>
+        <span class="objection-title">"Não consigo calcular o ROI / não sei se funciona no meu modelo"</span>
+      </div>
+      <span class="objection-arrow">▼</span>
+    </div>
+    <div class="objection-body">
+      <div class="diag">🔍 <b>Diagnóstico:</b> Perfil analítico. Precisa de número específico para o negócio dele — não aceita genérico. A solução é calcular o ROI AO VIVO na call usando os números dele.</div>
+      <div class="resp">
+        <div class="resp-label">Cálculo ao vivo (faça isso na call)</div>
+        "Me fala um número: quantas pessoas você tem em funções que a IA pode otimizar? E quanto cada uma custa por mês?" (Calcula na hora) "Ok, são R$ X/mês. Em Y meses você se paga. Faz sentido?"
+      </div>
+      <div class="resp">
+        <div class="resp-label">Desafio de validação</div>
+        "Me diz um processo real do seu negócio — o mais problemático. Eu te mostro como um agente resolve isso. Aí você decide se funciona para o seu modelo."
+      </div>
+      <div class="quote-box">💬 Real: "Preciso de garantias de que funciona no meu modelo" — Yuri (Energia Solar)</div>
+    </div>
+  </div>
+
+  <!-- OBJEÇÃO 6 -->
+  <div class="objection" id="obj6">
+    <div class="objection-header" onclick="toggleObj('obj6')">
+      <div class="left">
+        <span class="objection-tag baixa">Baixa</span>
+        <span class="objection-title">"Vai eliminar meus funcionários?"</span>
+      </div>
+      <span class="objection-arrow">▼</span>
+    </div>
+    <div class="objection-body">
+      <div class="diag">🔍 <b>Diagnóstico:</b> Resistência cultural — identidade como protetor de equipe. Antecipar essa objeção antes que ele pergunte é mais eficaz do que responder quando surgir.</div>
+      <div class="resp">
+        <div class="resp-label">Antecipar na apresentação (antes de perguntarem)</div>
+        "Uma coisa que todo dono pergunta: 'vai demitir minha equipe?' A resposta é não. A IA redistribui. Seu SDR humano faz relacionamento — o agente faz prospecção massiva. Um potencializa o outro."
+      </div>
+      <div class="resp">
+        <div class="resp-label">Resposta direta</div>
+        "Não é substituição — é redistribuição. Você não demite um time com IA. Você libera eles para fazer o que só humano faz: relacionamento, criatividade, decisão complexa."
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJEÇÃO 7 -->
+  <div class="objection" id="obj7">
+    <div class="objection-header" onclick="toggleObj('obj7')">
+      <div class="left">
+        <span class="objection-tag baixa">Baixa</span>
+        <span class="objection-title">"Precisa da aprovação do cônjuge/família"</span>
+      </div>
+      <span class="objection-arrow">▼</span>
+    </div>
+    <div class="objection-body">
+      <div class="diag">🔍 <b>Diagnóstico:</b> Decisão familiar com impacto financeiro. Não é uma objeção de valor — é de autoridade compartilhada. Inclua o cônjuge ao invés de ignorar.</div>
+      <div class="resp">
+        <div class="resp-label">Incluir ao invés de contornar</div>
+        "Faz todo sentido. Posso agendar um momento em que os dois estão disponíveis? São 30 minutos — e ela vai entender exatamente no que está sendo investido."
+      </div>
+      <div class="resp">
+        <div class="resp-label">Material de apoio</div>
+        "Posso te mandar um resumo objetivo que você pode mostrar para ela? Algo que explique o ROI e a garantia de 14 dias. Às vezes facilita a conversa em casa."
+      </div>
+      <div class="quote-box">💬 Real: "Minha esposa está grávida — preciso dela aprovar" — Christian (Brasília)</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== ERROS FATAIS ======================== -->
+<div id="erros" class="tab-content">
+  <div class="section-title">Erros que matam vendas</div>
+
+  <div class="alert danger">
+    <span>🚫</span>
+    <span>Esses erros foram identificados nas 47 calls analisadas. Alguns custaram fechamentos que estavam praticamente garantidos.</span>
+  </div>
+
+  <div class="card" style="border-color: rgba(239,68,68,0.3);">
+    <h3 style="color: var(--red);">❌ Erro 1: Mandar script igual para todos</h3>
+    <p>O lead que não fechou porque não tinha R$ 100k precisa de abordagem diferente do lead que deu no show. Personalizar aumenta a taxa de resposta em pelo menos 3x.</p>
+  </div>
+
+  <div class="card" style="border-color: rgba(239,68,68,0.3);">
+    <h3 style="color: var(--red);">❌ Erro 2: SDR empurrar lead mal qualificado para o closer</h3>
+    <p>O closer tem tempo limitado. Lead sem perfil técnico, sem poder de decisão ou claramente fora do ICP não deve chegar para o closer. Qualificação é responsabilidade do SDR.</p>
+  </div>
+
+  <div class="card" style="border-color: rgba(239,68,68,0.3);">
+    <h3 style="color: var(--red);">❌ Erro 3: Deixar o lead "consultar o sócio" e desligar</h3>
+    <p>Dados reais: 85% de risco de perda quando o lead vai "consultar" sem um próximo passo marcado. Sempre agende a call com o sócio ou defina uma data de retorno antes de encerrar.</p>
+  </div>
+
+  <div class="card" style="border-color: rgba(239,68,68,0.3);">
+    <h3 style="color: var(--red);">❌ Erro 4: Closer desligar sem link de pagamento enviado</h3>
+    <p>"Vou te mandar depois" = venda morta. O link vai durante a call, com o lead na linha, e você confirma que chegou. Sem isso, a venda não aconteceu.</p>
+  </div>
+
+  <div class="card" style="border-color: rgba(239,68,68,0.3);">
+    <h3 style="color: var(--red);">❌ Erro 5: Falar depois do silêncio de fechamento</h3>
+    <p>Você apresentou o preço. Houve silêncio. Quem falar primeiro nesse momento está negociando contra si mesmo. Aguente o silêncio — o lead está processando, não recusando.</p>
+  </div>
+
+  <div class="card" style="border-color: rgba(239,68,68,0.3);">
+    <h3 style="color: var(--red);">❌ Erro 6: Vender o produto, não resolver o problema</h3>
+    <p>Ninguém compra "80 agentes de IA". Eles compram "eliminar meu gargalo operacional" ou "escalar sem contratar". Conecte o produto ao problema específico que o lead mencionou.</p>
+  </div>
+
+  <div class="card" style="border-color: rgba(239,68,68,0.3);">
+    <h3 style="color: var(--red);">❌ Erro 7: Ignorar o lead que disse "não tenho interesse"</h3>
+    <p>Pergunte sempre o motivo. "O que te afasta?" revela se é uma objeção tratável ou uma desqualificação real. Às vezes o "não" é sobre a imersão — não sobre o CoHort.</p>
+  </div>
+
+  <div class="card" style="border-color: rgba(239,68,68,0.3);">
+    <h3 style="color: var(--red);">❌ Erro 8: Gastar tempo em leads frios/gelados</h3>
+    <p>Dados das 47 calls: 0 vendas em leads frios ou gelados. Priorize fervendo e quente. Cada minuto em lead frio é um lead quente não contatado.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">Resumo: O que funciona</div>
+  <div class="card" style="border-color: rgba(16,185,129,0.3);">
+    <ul class="checklist">
+      <li>Personalizar abordagem pelo histórico do lead na planilha</li>
+      <li>Qualificar autoridade de decisão ANTES de apresentar</li>
+      <li>Calcular ROI ao vivo com os números do próprio lead</li>
+      <li>Usar urgência real: 50 vagas, 08/04</li>
+      <li>Oferecer parcelamento antes da objeção de dinheiro aparecer</li>
+      <li>Anteciptar objeção de "demissão de funcionários" antes que perguntem</li>
+      <li>Enviar link de pagamento durante a call, confirmar recebimento</li>
+      <li>Agendar próximo passo antes de encerrar qualquer contato</li>
+      <li>Priorizar fervendo e quente — dados comprovam que é onde está a conversão</li>
+    </ul>
+  </div>
+</div>
+
+<!-- PRINT BUTTON -->
+<button class="print-btn" onclick="window.print()">
+  🖨️ Salvar como PDF
+</button>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggleObj(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
